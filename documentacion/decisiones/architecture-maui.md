@@ -9,7 +9,9 @@ Alcance: frontend (`orquestador-frontend`), rama `feat/maui-prototype`
 El proyecto migra de Flutter a .NET MAUI (decisión de cliente, ver §1 del CLAUDE.md raíz). Esta decisión define la arquitectura del prototipo MAUI siguiendo dos restricciones del proyecto:
 
 - Las dos barandas del CLAUDE.md §7: separación estricta UI/datos vía repositorios, y una sola gestión de estado en todo el proyecto.
-- Las decisiones de stack ya fijadas: .NET 8 + MAUI + C# + CommunityToolkit.Mvvm + Shell navigation + Material 3.
+- Las decisiones de stack ya fijadas: .NET 10 + MAUI + C# + CommunityToolkit.Mvvm + Shell navigation + Material 3.
+
+> **Nota de versionado.** El proyecto se creó originalmente apuntando a **.NET 8** (per CLAUDE.md §1 al momento del scaffold). Se migró a **.NET 10** el 2026-06-01 al instalar el entorno de desarrollo: el SDK local era .NET 10.0.108 (LTS vigente hasta noviembre 2028) y mantener .NET 8 implicaba instalar un SDK paralelo de soporte terminal (noviembre 2026). CLAUDE.md §1 fue actualizado en sincronía. Los `<PackageReference>` de `OrquestadorFrontend.csproj` quedaron pinneados en `Microsoft.Maui.Controls 10.0.108`, `Microsoft.Extensions.Logging.Debug 10.0.0`, `CommunityToolkit.Mvvm 8.4.0`.
 
 El alcance es un prototipo visual sin backend. La conexión a Entra ID / MSAL.NET, backend, Power BI Embedded y Azure OpenAI llega en fases posteriores.
 
