@@ -12,8 +12,10 @@ public static class MauiProgram
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
             {
-                // Brand fonts are registered in a follow-up commit when the assets land.
-                // Placeholder system fonts keep the app renderable in this scaffold.
+                // ACHS Masterbrand Variable Fonts. One file per family covers
+                // every weight; FontWeight on a Label/Style picks the variation.
+                fonts.AddFont("ACHSNuevaSans-VF.ttf", "ACHSNuevaSans");
+                fonts.AddFont("ACHSNuevaSerif-VF.ttf", "ACHSNuevaSerif");
             });
 
 #if DEBUG
