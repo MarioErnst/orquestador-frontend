@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Placeholder launcher foreground. The letter A stands in for the ACHS
+     Masterbrand until the official launcher mark is provided. -->
+<svg width="456" height="456" viewBox="0 0 456 456" xmlns="http://www.w3.org/2000/svg">
+  <text x="228" y="300"
+        font-family="sans-serif"
+        font-size="240"
+        font-weight="700"
+        fill="#FFFFFF"
+        text-anchor="middle">A</text>
+</svg>

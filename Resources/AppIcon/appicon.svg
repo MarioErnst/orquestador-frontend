@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Placeholder launcher background. Pending official ACHS launcher icon per
+     brand identity decision. Uses brand green #13C045 as base. -->
+<svg width="456" height="456" viewBox="0 0 456 456" xmlns="http://www.w3.org/2000/svg">
+  <rect width="456" height="456" fill="#13C045"/>
+</svg>

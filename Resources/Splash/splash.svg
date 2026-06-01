@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Placeholder splash mark. Pending official ACHS splash artwork. -->
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <text x="64" y="84"
+        font-family="sans-serif"
+        font-size="68"
+        font-weight="700"
+        fill="#FFFFFF"
+        text-anchor="middle">A</text>
+</svg>

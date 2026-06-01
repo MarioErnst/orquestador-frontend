@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="OrquestadorFrontend.AppShell"
+       Title="App ACHS Directivos"
+       Shell.FlyoutBehavior="Disabled">
+
+    <!-- Placeholder shell. The real Shell with TabBar (Inicio, Reportes,
+         Documentos, Notificaciones) and the role guard for the Whistleblower
+         Channel arrives in a follow-up commit. -->
+    <ShellContent Title="Bienvenido" Route="placeholder">
+        <ContentPage>
+            <VerticalStackLayout Padding="24" Spacing="12" VerticalOptions="Center">
+                <Label Text="App ACHS Directivos"
+                       FontSize="28"
+                       HorizontalOptions="Center" />
+                <Label Text="Prototipo visual en .NET MAUI"
+                       FontSize="16"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ContentPage>
+    </ShellContent>
+
+</Shell>
