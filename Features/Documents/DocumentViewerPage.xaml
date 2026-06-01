@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Documents"
+             xmlns:controls="clr-namespace:OrquestadorFrontend.Features.Documents.Controls"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             x:Class="OrquestadorFrontend.Features.Documents.DocumentViewerPage"
+             x:DataType="vm:DocumentViewerViewModel"
+             Title="Documento"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid>
+        <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+        <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
+                             Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
+                             RetryCommand="{Binding LoadCommand}" />
+        <shared:EmptyState   IsVisible="{Binding State, Converter={StaticResource IsEmptyConverter}}"
+                             Title="Documento no disponible"
+                             Message="No encontramos el documento solicitado." />
+
+        <ScrollView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <VerticalStackLayout Padding="16" Spacing="16">
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Report.Title}"
+                           Style="{StaticResource HeadlineSmall}" />
+                    <Label Text="{Binding Report.Description}"
+                           Style="{StaticResource BodyMedium}"
+                           TextColor="{StaticResource OnSurfaceVariant}" />
+                </VerticalStackLayout>
+
+                <!-- PDF viewer placeholder. Real implementation embeds a PDF
+                     renderer; the document arrives as a short-lived signed URL
+                     produced by the backend. -->
+                <Border IsVisible="{Binding IsPdf}"
+                        Stroke="{StaticResource OutlineVariant}"
+                        StrokeThickness="1"
+                        BackgroundColor="{StaticResource SurfaceVariant}"
+                        Padding="24"
+                        HeightRequest="240">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                        <Label Text="Visor de PDF"
+                               Style="{StaticResource TitleMedium}"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="(placeholder de prototipo)"
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <controls:AiSummaryBlock IsVisible="{Binding HasAiSummary}"
+                                         Summary="{Binding Report.AiSummary}" />
+
+                <!-- Video player placeholder -->
+                <Border IsVisible="{Binding IsVideo}"
+                        Stroke="{StaticResource OutlineVariant}"
+                        StrokeThickness="1"
+                        BackgroundColor="Black"
+                        Padding="24"
+                        HeightRequest="240">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="6"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                        <Label Text="Reproductor de video"
+                               Style="{StaticResource TitleMedium}"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="(placeholder de prototipo)"
+                               Style="{StaticResource BodySmall}"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- SharePoint link placeholder -->
+                <Border IsVisible="{Binding IsSharepoint}"
+                        Style="{StaticResource CardBorder}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Enlace a SharePoint"
+                               Style="{StaticResource TitleMedium}" />
+                        <Label Text="En producción este enlace abre el documento en SharePoint usando tu sesión corporativa activa. Los permisos se heredan de tu identidad."
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
