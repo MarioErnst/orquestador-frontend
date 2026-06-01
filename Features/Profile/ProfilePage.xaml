@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Profile"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             x:Class="OrquestadorFrontend.Features.Profile.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="Perfil"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid Padding="16">
+        <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+        <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
+                             Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
+                             RetryCommand="{Binding LoadCommand}" />
+
+        <ScrollView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <VerticalStackLayout Spacing="24">
+
+                <Border Style="{StaticResource CardBorder}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="{Binding ProfileData.FullName}"
+                               Style="{StaticResource HeadlineSmall}" />
+                        <Label Text="{Binding ProfileData.Position}"
+                               Style="{StaticResource BodyMedium}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+
+                        <BoxView HeightRequest="1"
+                                 BackgroundColor="{StaticResource OutlineVariant}"
+                                 Margin="0,8" />
+
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" RowSpacing="8" ColumnSpacing="16">
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="Correo"
+                                   Style="{StaticResource LabelMedium}"
+                                   TextColor="{StaticResource OnSurfaceVariant}" />
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding ProfileData.Email}"
+                                   Style="{StaticResource BodyMedium}" />
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="Rol"
+                                   Style="{StaticResource LabelMedium}"
+                                   TextColor="{StaticResource OnSurfaceVariant}" />
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding RoleLabel}"
+                                   Style="{StaticResource BodyMedium}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button Text="Cerrar sesión"
+                        Style="{StaticResource OutlinedButton}"
+                        Command="{Binding SignOutCommand}" />
+
+                <Label Text="La gestión de identidad y permisos vive en los servicios corporativos. Esta pantalla solo refleja tu sesión activa."
+                       Style="{StaticResource BodySmall}"
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       HorizontalTextAlignment="Center" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
