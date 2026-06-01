@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--
+        ACHS Masterbrand color tokens.
+        Source: Manual de Marca Achs (Jul-2023), pages 64-65.
+        Rationale documented in documentacion/decisiones/brand-identity-achs-maui.md.
+
+        Raw tokens are exposed individually so a screen that needs a specific
+        Masterbrand color can reference it explicitly (e.g. BrandBeige as a
+        surface). Semantic tokens further down map brand colors to a Material 3
+        style scheme used by component styles in Styles.xaml.
+    -->
+
+    <!-- Raw brand tokens (Manual de Marca) -->
+    <Color x:Key="BrandGreen">#13C045</Color>
+    <Color x:Key="BrandGreenDark">#004C14</Color>
+    <Color x:Key="BrandNeon">#7EFF45</Color>
+    <Color x:Key="BrandBeige">#EAEADE</Color>
+    <Color x:Key="BrandBlack">#000000</Color>
+    <Color x:Key="BrandWhite">#FFFFFF</Color>
+    <Color x:Key="BrandGreenComplementary">#81D877</Color>
+    <Color x:Key="BrandGreenComplementaryDark">#27933E</Color>
+
+    <!--
+        Status colors. Sober palette preserved on purpose so a dashboard full
+        of OK indicators does not blend with the brand green chrome.
+    -->
+    <Color x:Key="StatusOk">#1F7A4F</Color>
+    <Color x:Key="StatusWarn">#B7791F</Color>
+    <Color x:Key="StatusAlert">#B42318</Color>
+    <Color x:Key="StatusOkContainer">#D6F1E3</Color>
+    <Color x:Key="StatusWarnContainer">#FBE8C7</Color>
+    <Color x:Key="StatusAlertContainer">#FAD0CB</Color>
+
+    <!--
+        Material 3 semantic mapping. The scheme uses BrandGreen as the seed
+        (primary) and reserves BrandNeon for tertiary accents (badges, active
+        indicators, micro-interactions) per Manual de Marca page 65.
+
+        Text on brand green is white because BrandGreen on white has contrast
+        ~2.5:1 (insufficient for body text). Text on neon is black because the
+        neon-on-white contrast is ~1.5:1 — purely decorative.
+    -->
+    <Color x:Key="Primary">#13C045</Color>
+    <Color x:Key="OnPrimary">#FFFFFF</Color>
+    <Color x:Key="PrimaryContainer">#B8F0C9</Color>
+    <Color x:Key="OnPrimaryContainer">#004C14</Color>
+
+    <Color x:Key="Secondary">#27933E</Color>
+    <Color x:Key="OnSecondary">#FFFFFF</Color>
+    <Color x:Key="SecondaryContainer">#D6F1E3</Color>
+    <Color x:Key="OnSecondaryContainer">#0B3A1B</Color>
+
+    <Color x:Key="Tertiary">#7EFF45</Color>
+    <Color x:Key="OnTertiary">#000000</Color>
+    <Color x:Key="TertiaryContainer">#E2FBD2</Color>
+    <Color x:Key="OnTertiaryContainer">#003A14</Color>
+
+    <Color x:Key="Error">#B42318</Color>
+    <Color x:Key="OnError">#FFFFFF</Color>
+    <Color x:Key="ErrorContainer">#FAD0CB</Color>
+    <Color x:Key="OnErrorContainer">#6E1612</Color>
+
+    <!--
+        Neutral surfaces. Background stays neutral (white-ish) so BrandBeige
+        is used explicitly per screen when a warmer surface is wanted.
+    -->
+    <Color x:Key="Background">#FFFFFF</Color>
+    <Color x:Key="OnBackground">#000000</Color>
+    <Color x:Key="Surface">#FAFAFA</Color>
+    <Color x:Key="OnSurface">#000000</Color>
+    <Color x:Key="SurfaceVariant">#EAEADE</Color>
+    <Color x:Key="OnSurfaceVariant">#2B2B24</Color>
+    <Color x:Key="Outline">#79747E</Color>
+    <Color x:Key="OutlineVariant">#CAC4D0</Color>
+
+    <!-- Whistleblower channel surface. Sober tone, distinct from regular app chrome. -->
+    <Color x:Key="WhistleblowerSurface">#F5F2E8</Color>
+    <Color x:Key="WhistleblowerOnSurface">#2B2B24</Color>
+    <Color x:Key="WhistleblowerAccent">#27933E</Color>
+
+</ResourceDictionary>

@@ -4,8 +4,9 @@
              x:Class="OrquestadorFrontend.App">
     <Application.Resources>
         <ResourceDictionary>
-            <!-- Brand color tokens, typography and base styles are merged in
-                 follow-up commits as the design system lands. -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
