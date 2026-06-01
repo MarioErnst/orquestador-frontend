@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Whistleblower"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             x:Class="OrquestadorFrontend.Features.Whistleblower.WhistleblowerCasePage"
+             x:DataType="vm:WhistleblowerCaseViewModel"
+             Title="Caso"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource WhistleblowerSurface}">
+
+    <Grid>
+        <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+        <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
+                             Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
+                             RetryCommand="{Binding LoadCommand}" />
+        <shared:EmptyState   IsVisible="{Binding State, Converter={StaticResource IsEmptyConverter}}"
+                             Title="Caso no disponible"
+                             Message="No encontramos el caso solicitado." />
+
+        <ScrollView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <VerticalStackLayout Padding="16" Spacing="16">
+
+                <shared:AuditBadge HorizontalOptions="Start" />
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Case.ReferenceCode}"
+                           Style="{StaticResource HeadlineSmall}" />
+                    <Label Text="{Binding Case.Category}"
+                           Style="{StaticResource BodyMedium}"
+                           TextColor="{StaticResource OnSurfaceVariant}" />
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource WhistleblowerCardBorder}">
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" RowSpacing="6" ColumnSpacing="12">
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Estado"
+                               Style="{StaticResource LabelMedium}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="{Binding StatusLabel}"
+                               Style="{StaticResource TitleSmall}" />
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="Fecha de ingreso"
+                               Style="{StaticResource LabelMedium}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding Case.ReceivedAt, StringFormat='{0:dd MMM yyyy}'}"
+                               Style="{StaticResource TitleSmall}" />
+                    </Grid>
+                </Border>
+
+                <!-- PENDIENTE DE DEFINICIÓN: el área de cumplimiento de la
+                     ACHS debe definir si se muestra el contenido completo del
+                     caso o solo metadatos. Mientras tanto, placeholder. -->
+                <Border Style="{StaticResource WhistleblowerCardBorder}">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Contenido del caso"
+                               Style="{StaticResource TitleSmall}" />
+                        <Label Text="El alcance del contenido visible está pendiente de la decisión del área de cumplimiento. Por defecto, este módulo muestra metadatos y estado del caso, sin detalle libre."
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Whistleblower"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
+             x:Class="OrquestadorFrontend.Features.Whistleblower.WhistleblowerListPage"
+             x:DataType="vm:WhistleblowerListViewModel"
+             Title="Canal de Denuncias"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource WhistleblowerSurface}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Audit badge — visible signal that the access is recorded. -->
+            <shared:AuditBadge HorizontalOptions="Start" />
+
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Canal de Denuncias"
+                       Style="{StaticResource HeadlineSmall}" />
+                <Label Text="Casos recibidos por orden cronológico."
+                       Style="{StaticResource BodyMedium}"
+                       TextColor="{StaticResource OnSurfaceVariant}" />
+            </VerticalStackLayout>
+
+            <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+            <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
+                                 Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
+                                 RetryCommand="{Binding LoadCommand}" />
+            <shared:EmptyState   IsVisible="{Binding State, Converter={StaticResource IsEmptyConverter}}"
+                                 Title="Sin casos por revisar"
+                                 Message="Cuando ingrese un caso nuevo, aparecerá acá." />
+
+            <CollectionView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}"
+                            ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:WhistleblowerCase">
+                        <Border Style="{StaticResource WhistleblowerCardBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WhistleblowerListViewModel}}, Path=OpenCaseCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="{Binding ReferenceCode}"
+                                           Style="{StaticResource TitleSmall}" />
+                                    <Label Text="{Binding Category}"
+                                           Style="{StaticResource BodySmall}"
+                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Status, Converter={StaticResource WhistleblowerStatusLabelConverter}}"
+                                       TextColor="{Binding Status, Converter={StaticResource WhistleblowerStatusColorConverter}}"
+                                       Style="{StaticResource LabelMedium}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
