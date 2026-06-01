@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Reports"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
+             x:Class="OrquestadorFrontend.Features.Reports.ReportsListPage"
+             x:DataType="vm:ReportsListViewModel"
+             Title="Reportes"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid Padding="16">
+        <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+        <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
+                             Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
+                             RetryCommand="{Binding LoadCommand}" />
+        <shared:EmptyState   IsVisible="{Binding State, Converter={StaticResource IsEmptyConverter}}"
+                             Title="Sin tableros disponibles"
+                             Message="Tu rol actual aún no tiene tableros publicados." />
+
+        <CollectionView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}"
+                        ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:BiBoard">
+                    <Border Style="{StaticResource CardBorder}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReportsListViewModel}}, Path=OpenBoardCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Name}"
+                                   Style="{StaticResource TitleMedium}" />
+                            <Label Text="{Binding Description}"
+                                   Style="{StaticResource BodySmall}"
+                                   TextColor="{StaticResource OnSurfaceVariant}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>
