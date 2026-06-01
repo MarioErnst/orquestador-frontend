@@ -19,17 +19,18 @@ public sealed partial class BoardViewerViewModel : ObservableObject
     [ObservableProperty]
     private ResultState<BiBoard> _state = new Loading<BiBoard>();
 
+    // Convenience property so XAML can bind directly to Board.Name etc. when
+    // State is Data. Kept in sync inside LoadAsync.
+    [ObservableProperty]
+    private BiBoard? _board;
+
     public BoardViewerViewModel(IBoardsRepository boards, ISessionService session)
     {
         _boards = boards;
         _session = session;
     }
 
-    partial void OnBoardIdChanged(string value)
-    {
-        // Each time Shell rebinds the BoardId query parameter we reload.
-        _ = LoadAsync();
-    }
+    partial void OnBoardIdChanged(string value) => _ = LoadAsync();
 
     [RelayCommand]
     private async Task LoadAsync()
@@ -37,13 +38,21 @@ public sealed partial class BoardViewerViewModel : ObservableObject
         if (string.IsNullOrEmpty(BoardId)) return;
 
         State = new Loading<BiBoard>();
+        Board = null;
+
         try
         {
             var role = _session.CurrentRole ?? UserRole.Director;
             var board = await _boards.GetBoardAsync(BoardId, role);
-            State = board is null
-                ? new Empty<BiBoard>()
-                : new Data<BiBoard>(board);
+            if (board is null)
+            {
+                State = new Empty<BiBoard>();
+            }
+            else
+            {
+                Board = board;
+                State = new Data<BiBoard>(board);
+            }
         }
         catch (Exception)
         {
