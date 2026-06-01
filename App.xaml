@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:core="clr-namespace:OrquestadorFrontend.Core"
+             xmlns:documents="clr-namespace:OrquestadorFrontend.Features.Documents"
              x:Class="OrquestadorFrontend.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,6 +19,9 @@
             <core:IsFailureConverter x:Key="IsFailureConverter" />
             <core:DataValueConverter x:Key="DataValueConverter" />
             <core:FailureMessageConverter x:Key="FailureMessageConverter" />
+
+            <!-- Feature-specific converters -->
+            <documents:ReportKindLabelConverter x:Key="ReportKindLabelConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
