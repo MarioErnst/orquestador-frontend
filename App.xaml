@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:core="clr-namespace:OrquestadorFrontend.Core"
              x:Class="OrquestadorFrontend.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -9,6 +10,14 @@
                 <ResourceDictionary Source="Resources/Styles/Typography.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- ResultState converters used by every screen that loads data. -->
+            <core:IsLoadingConverter x:Key="IsLoadingConverter" />
+            <core:IsDataConverter x:Key="IsDataConverter" />
+            <core:IsEmptyConverter x:Key="IsEmptyConverter" />
+            <core:IsFailureConverter x:Key="IsFailureConverter" />
+            <core:DataValueConverter x:Key="DataValueConverter" />
+            <core:FailureMessageConverter x:Key="FailureMessageConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
