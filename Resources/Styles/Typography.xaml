@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--
+        Typography hierarchy aligned with Material 3 type scale and ACHS
+        Masterbrand Manual de Marca (pages 71-77).
+
+        Serif (ACHS Nueva Serif) covers editorial display/headline slots.
+        Sans  (ACHS Nueva Sans)  covers title/body/label slots used for chrome,
+        forms and reading flow.
+
+        Variable Fonts are registered as a single family per file. MAUI maps
+        FontAttributes Bold to the heavier variation. The 500-600 weight
+        nuances from the manual are best-effort on a phone renderer; the brand
+        decision document tracks the limitation.
+    -->
+
+    <!-- Display: editorial scale, Serif Light -->
+    <Style x:Key="DisplayLarge" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="57" />
+        <Setter Property="LineHeight" Value="1.12" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="DisplayMedium" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="45" />
+        <Setter Property="LineHeight" Value="1.15" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="DisplaySmall" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="36" />
+        <Setter Property="LineHeight" Value="1.22" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <!-- Headline: Serif Medium -->
+    <Style x:Key="HeadlineLarge" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.25" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="HeadlineMedium" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.28" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="HeadlineSmall" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSerif" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.33" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <!-- Title: Sans Semibold (FontAttributes Bold renders heaviest available) -->
+    <Style x:Key="TitleLarge" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.27" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="TitleMedium" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.5" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="TitleSmall" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.42" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <!-- Body: Sans Regular -->
+    <Style x:Key="BodyLarge" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="LineHeight" Value="1.5" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="BodyMedium" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="LineHeight" Value="1.42" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="BodySmall" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="LineHeight" Value="1.33" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurfaceVariant}" />
+    </Style>
+
+    <!-- Label: Sans Medium (buttons, chips, captions) -->
+    <Style x:Key="LabelLarge" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.42" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="LabelMedium" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.33" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurface}" />
+    </Style>
+
+    <Style x:Key="LabelSmall" TargetType="Label">
+        <Setter Property="FontFamily" Value="ACHSNuevaSans" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="LineHeight" Value="1.45" />
+        <Setter Property="TextColor" Value="{StaticResource OnSurfaceVariant}" />
+    </Style>
+
+    <!--
+        Implicit default Label style. Anything not assigned an explicit Style
+        falls back to BodyMedium so screens default to the brand sans family
+        instead of the system font.
+    -->
+    <Style TargetType="Label" BasedOn="{StaticResource BodyMedium}" />
+
+</ResourceDictionary>
