@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
+    <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OrquestadorFrontend</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -29,9 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Versions pinned per CLAUDE.md section 8 (no latest, no open ranges) -->
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
+    <!-- Versions pinned per CLAUDE.md section 8 (no latest, no open ranges).
+         Aligned with .NET 10.0.108 SDK installed on the dev machine. -->
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.108" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>
 

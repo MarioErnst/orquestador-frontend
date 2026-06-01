@@ -4,7 +4,7 @@ App móvil para directivos ACHS — prototipo visual en .NET MAUI.
 
 ## Stack
 
-- **.NET 8** + **.NET MAUI** (C#).
+- **.NET 10** + **.NET MAUI** (C#).
 - **CommunityToolkit.Mvvm** para gestión de estado (ViewModels con `[ObservableProperty]` y `[RelayCommand]`).
 - **Microsoft.Extensions.DependencyInjection** para inyección de dependencias.
 - **Shell navigation** de .NET MAUI, con guardas de ruta por rol.
@@ -17,7 +17,7 @@ Prototipo visual sin backend. Los datos se sirven desde implementaciones mock de
 
 ## Requisitos para correr
 
-- .NET 8 SDK con el workload de MAUI: `dotnet workload install maui`.
+- .NET 10 SDK con el workload de MAUI: `sudo dotnet workload install maui-android` (para iOS adicionalmente `maui-ios` en un Mac).
 - Android: emulador Android API 26+ y Android SDK.
 - iOS: macOS con Xcode (la compilación de iOS solo es posible desde macOS).
 
@@ -28,10 +28,10 @@ Prototipo visual sin backend. Los datos se sirven desde implementaciones mock de
 dotnet restore
 
 # Correr en emulador Android
-dotnet build -t:Run -f net8.0-android
+dotnet build -t:Run -f net10.0-android
 
 # Correr en iOS (solo macOS)
-dotnet build -t:Run -f net8.0-ios
+dotnet build -t:Run -f net10.0-ios
 ```
 
 ## Estructura
