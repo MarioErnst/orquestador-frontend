@@ -19,6 +19,7 @@
             <core:IsFailureConverter x:Key="IsFailureConverter" />
             <core:DataValueConverter x:Key="DataValueConverter" />
             <core:FailureMessageConverter x:Key="FailureMessageConverter" />
+            <core:InverseBoolConverter x:Key="InverseBoolConverter" />
 
             <!-- Feature-specific converters -->
             <documents:ReportKindLabelConverter x:Key="ReportKindLabelConverter" />
