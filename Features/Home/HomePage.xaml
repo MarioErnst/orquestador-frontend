@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Home"
+             xmlns:controls="clr-namespace:OrquestadorFrontend.Features.Home.Controls"
+             xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
+             xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
+             x:Class="OrquestadorFrontend.Features.Home.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Title="Inicio"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="24">
+
+            <!-- Header / greeting -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding Greeting}"
+                       Style="{StaticResource HeadlineSmall}" />
+                <Label Text="Resumen de hoy"
+                       Style="{StaticResource BodyMedium}"
+                       TextColor="{StaticResource OnSurfaceVariant}" />
+            </VerticalStackLayout>
+
+            <!-- Indicadores clave -->
+            <VerticalStackLayout Spacing="12">
+                <shared:SectionHeader Title="Indicadores clave" />
+
+                <shared:LoadingState IsVisible="{Binding KpisState, Converter={StaticResource IsLoadingConverter}}" />
+                <shared:ErrorState   IsVisible="{Binding KpisState, Converter={StaticResource IsFailureConverter}}"
+                                     Message="{Binding KpisState, Converter={StaticResource FailureMessageConverter}}"
+                                     RetryCommand="{Binding LoadCommand}" />
+                <shared:EmptyState   IsVisible="{Binding KpisState, Converter={StaticResource IsEmptyConverter}}"
+                                     Title="Sin indicadores asignados"
+                                     Message="Cuando los tableros queden publicados, los indicadores aparecerán aquí." />
+
+                <CollectionView IsVisible="{Binding KpisState, Converter={StaticResource IsDataConverter}}"
+                                ItemsSource="{Binding KpisState, Converter={StaticResource DataValueConverter}}"
+                                ItemsLayout="VerticalGrid, 2"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:DashboardKpi">
+                            <controls:KpiCard Kpi="{Binding .}" Margin="4" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- Accesos rápidos -->
+            <VerticalStackLayout Spacing="12">
+                <shared:SectionHeader Title="Accesos rápidos" />
+
+                <Border Style="{StaticResource CardBorder}"
+                        IsVisible="{Binding LatestReport, Converter={StaticResource IsDataConverter}}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenLatestReportCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Último informe publicado"
+                               Style="{StaticResource LabelMedium}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                        <Label Text="{Binding LatestReport.Title}"
+                               Style="{StaticResource TitleMedium}" />
+                        <Label Text="{Binding LatestReport.Description}"
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Style="{StaticResource CardBorder}"
+                        IsVisible="{Binding FeaturedBoard, Converter={StaticResource IsDataConverter}}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenFeaturedBoardCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Tablero habitual"
+                               Style="{StaticResource LabelMedium}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                        <Label Text="{Binding FeaturedBoard.Name}"
+                               Style="{StaticResource TitleMedium}" />
+                        <Label Text="{Binding FeaturedBoard.Description}"
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Whistleblower entry: ABSOLUTELY NOT RENDERED for roles
+                     without access. IsVisible is bound to HasWhistleblowerAccess
+                     which the repository decides. No disabled state, no hint. -->
+                <Border Style="{StaticResource WhistleblowerCardBorder}"
+                        IsVisible="{Binding HasWhistleblowerAccess}">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenWhistleblowerCommand}" />
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout Spacing="6">
+                        <shared:AuditBadge HorizontalOptions="Start" />
+                        <Label Text="Canal de Denuncias"
+                               Style="{StaticResource TitleMedium}" />
+                        <Label Text="Revisar casos abiertos y en investigación."
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{StaticResource OnSurfaceVariant}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- Alertas recientes -->
+            <VerticalStackLayout Spacing="12">
+                <shared:SectionHeader Title="Alertas recientes" />
+
+                <shared:LoadingState IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsLoadingConverter}}" />
+                <shared:EmptyState   IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsEmptyConverter}}"
+                                     Title="No hay alertas nuevas"
+                                     Message="Te avisaremos cuando llegue algo relevante." />
+
+                <CollectionView IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsDataConverter}}"
+                                ItemsSource="{Binding RecentAlertsState, Converter={StaticResource DataValueConverter}}"
+                                SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:NotificationItem">
+                            <Border Style="{StaticResource CardBorder}" Margin="0,0,0,8">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=OpenNotificationCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <VerticalStackLayout Spacing="4">
+                                    <Label Text="{Binding Title}"
+                                           Style="{StaticResource TitleSmall}" />
+                                    <Label Text="{Binding Body}"
+                                           Style="{StaticResource BodySmall}"
+                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Ver historial completo"
+                        Style="{StaticResource TextButton}"
+                        Command="{Binding OpenAllNotificationsCommand}"
+                        HorizontalOptions="Start" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

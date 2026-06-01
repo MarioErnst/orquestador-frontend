@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrquestadorFrontend.Features.Home.Controls.KpiCard"
+             x:Name="Root">
+
+    <Border Style="{StaticResource CardBorder}">
+        <VerticalStackLayout Spacing="6">
+            <Label Text="{Binding Label, Source={x:Reference Root}}"
+                   Style="{StaticResource LabelMedium}"
+                   TextColor="{StaticResource OnSurfaceVariant}" />
+            <HorizontalStackLayout Spacing="4" VerticalOptions="End">
+                <Label Text="{Binding Value, Source={x:Reference Root}}"
+                       Style="{StaticResource HeadlineMedium}" />
+                <Label Text="{Binding Unit, Source={x:Reference Root}}"
+                       Style="{StaticResource TitleSmall}"
+                       TextColor="{StaticResource OnSurfaceVariant}"
+                       VerticalOptions="End"
+                       Margin="0,0,0,6" />
+            </HorizontalStackLayout>
+            <Label Text="{Binding StatusLabel, Source={x:Reference Root}}"
+                   Style="{StaticResource LabelSmall}"
+                   TextColor="{Binding StatusColor, Source={x:Reference Root}}" />
+            <Label Text="{Binding Helper, Source={x:Reference Root}}"
+                   Style="{StaticResource BodySmall}"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   IsVisible="{Binding HasHelper, Source={x:Reference Root}}" />
+        </VerticalStackLayout>
+    </Border>
+
+</ContentView>
