@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrquestadorFrontend.Features.Auth.LoginPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
+
+        <!-- Brand mark + app name. Logo placeholder uses the masterbrand
+             positiva preferida until the negative variant lands. -->
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="16"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
+            <Image Source="achs_masterbrand_positiva_preferida.png"
+                   HeightRequest="96"
+                   Aspect="AspectFit" />
+            <Label Text="App ACHS Directivos"
+                   Style="{StaticResource HeadlineSmall}"
+                   HorizontalTextAlignment="Center" />
+            <Label Text="Acceso para Directorio, Comité y Alta Gerencia"
+                   Style="{StaticResource BodyMedium}"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <!-- Sign-in button. The complexity of real authentication (MFA,
+             device check) lives in the Microsoft flow, not in the app. -->
+        <VerticalStackLayout Grid.Row="1" Spacing="12">
+            <Button x:Name="SignInButton"
+                    Text="Iniciar sesión con cuenta Microsoft"
+                    Style="{StaticResource PrimaryButton}"
+                    Clicked="OnSignInClicked" />
+            <Label Text="Si tu dispositivo no cumple las políticas corporativas, la app no permitirá el ingreso."
+                   Style="{StaticResource BodySmall}"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>

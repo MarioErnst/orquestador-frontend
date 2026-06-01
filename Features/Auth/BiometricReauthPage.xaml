@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrquestadorFrontend.Features.Auth.BiometricReauthPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
+
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="16"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
+            <Label Text="Confirmá tu identidad"
+                   Style="{StaticResource HeadlineSmall}"
+                   HorizontalTextAlignment="Center" />
+            <Label Text="Usá la biometría de tu dispositivo para continuar."
+                   Style="{StaticResource BodyMedium}"
+                   TextColor="{StaticResource OnSurfaceVariant}"
+                   HorizontalTextAlignment="Center" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="12">
+            <Button Text="Usar biometría"
+                    Style="{StaticResource PrimaryButton}"
+                    Command="{Binding ConfirmCommand}" />
+            <Button Text="Usar otra cuenta"
+                    Style="{StaticResource TextButton}"
+                    Command="{Binding UseOtherAccountCommand}" />
+        </VerticalStackLayout>
+
+    </Grid>
+
+</ContentPage>
