@@ -1,24 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:auth="clr-namespace:OrquestadorFrontend.Features.Auth"
+       xmlns:home="clr-namespace:OrquestadorFrontend.Features.Home"
+       xmlns:reports="clr-namespace:OrquestadorFrontend.Features.Reports"
+       xmlns:documents="clr-namespace:OrquestadorFrontend.Features.Documents"
+       xmlns:notifications="clr-namespace:OrquestadorFrontend.Features.Notifications"
        x:Class="OrquestadorFrontend.AppShell"
        Title="App ACHS Directivos"
-       Shell.FlyoutBehavior="Disabled">
+       Shell.FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource Background}"
+       Shell.ForegroundColor="{StaticResource OnBackground}"
+       Shell.TitleColor="{StaticResource OnBackground}">
 
-    <!-- Placeholder shell. The real Shell with TabBar (Inicio, Reportes,
-         Documentos, Notificaciones) and the role guard for the Whistleblower
-         Channel arrives in a follow-up commit. -->
-    <ShellContent Title="Bienvenido" Route="placeholder">
-        <ContentPage>
-            <VerticalStackLayout Padding="24" Spacing="12" VerticalOptions="Center">
-                <Label Text="App ACHS Directivos"
-                       FontSize="28"
-                       HorizontalOptions="Center" />
-                <Label Text="Prototipo visual en .NET MAUI"
-                       FontSize="16"
-                       HorizontalOptions="Center" />
-            </VerticalStackLayout>
-        </ContentPage>
-    </ShellContent>
+    <Shell.Resources>
+        <Style TargetType="TabBar">
+            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Surface}" />
+            <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
+            <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource OnSurfaceVariant}" />
+            <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
+        </Style>
+    </Shell.Resources>
+
+    <!-- 1. Entry point: Login.
+         The Shell starts here. Sign-in navigates to //main/home. -->
+    <ShellContent Title="Iniciar sesión"
+                  Route="login"
+                  ContentTemplate="{DataTemplate auth:LoginPage}"
+                  Shell.NavBarIsVisible="False"
+                  Shell.TabBarIsVisible="False" />
+
+    <!-- 2. Main app: TabBar with the four primary sections. -->
+    <TabBar Route="main">
+
+        <Tab Title="Inicio" Route="home">
+            <ShellContent ContentTemplate="{DataTemplate home:HomePage}" />
+        </Tab>
+
+        <Tab Title="Reportes" Route="reports">
+            <ShellContent ContentTemplate="{DataTemplate reports:ReportsListPage}" />
+        </Tab>
+
+        <Tab Title="Documentos" Route="documents">
+            <ShellContent ContentTemplate="{DataTemplate documents:DocumentsListPage}" />
+        </Tab>
+
+        <Tab Title="Notificaciones" Route="notifications">
+            <ShellContent ContentTemplate="{DataTemplate notifications:NotificationsPage}" />
+        </Tab>
+
+    </TabBar>
 
 </Shell>

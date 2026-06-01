@@ -126,7 +126,7 @@ public sealed partial class HomeViewModel : ObservableObject
     {
         // The Shell guard re-checks the role; this command only runs because
         // HasWhistleblowerAccess made the entry visible in the first place.
-        await Shell.Current.GoToAsync("//main/whistleblower");
+        await Shell.Current.GoToAsync("whistleblower");
     }
 
     [RelayCommand]
