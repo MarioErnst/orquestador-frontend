@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:core="clr-namespace:OrquestadorFrontend.Core"
              xmlns:documents="clr-namespace:OrquestadorFrontend.Features.Documents"
+             xmlns:whistleblower="clr-namespace:OrquestadorFrontend.Features.Whistleblower"
              x:Class="OrquestadorFrontend.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -23,6 +24,8 @@
 
             <!-- Feature-specific converters -->
             <documents:ReportKindLabelConverter x:Key="ReportKindLabelConverter" />
+            <whistleblower:WhistleblowerStatusLabelConverter x:Key="WhistleblowerStatusLabelConverter" />
+            <whistleblower:WhistleblowerStatusColorConverter x:Key="WhistleblowerStatusColorConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
