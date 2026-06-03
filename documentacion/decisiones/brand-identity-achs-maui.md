@@ -125,6 +125,17 @@ En MAUI 8 hay menor control granular: el sistema mapea `FontAttributes="Bold"` a
 5. Confirmar política de fallback de fuente cuando el dispositivo no pueda renderizar el VF (manual sugiere Arial y Times New Roman como sustitutos de sistema).
 6. Evaluar registro multi-alias del VF para acceder a pesos intermedios (Semibold, Medium).
 
+## Extensión: dark mode + sistema visual M3 expressive (2026-06-03)
+
+La paleta y la jerarquía tipográfica descriptas arriba siguen siendo la
+fuente de verdad del light scheme. El 2026-06-03 se incorporó el dark
+scheme, los tonal layers Material 3 expressive, los tokens reutilizables
+de shape / spacing / elevation, una fuente de iconos (Material Icons
+v4.0.0) y un servicio de tema con toggle manual en Perfil. Toda esa
+extensión se documentó en `visual-system-m3-dark-mode.md`; este
+documento se mantiene como referencia de la base de marca y queda
+explícitamente complementario al nuevo.
+
 ## Análisis de seguridad de este cambio
 
 - **Activo tocado:** assets estáticos, tokens de color y tipografía. No toca autenticación, autorización, manejo de datos sensibles ni red.
