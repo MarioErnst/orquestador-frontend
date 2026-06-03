@@ -11,6 +11,11 @@ public sealed partial class ProfileViewModel : ObservableObject
 {
     private readonly IProfileRepository _profile;
     private readonly ISessionService _session;
+    private readonly IThemeService _theme;
+
+    // Suppresses the property setter -> SetModeAsync feedback loop while
+    // synchronising the three radio booleans after a ModeChanged event.
+    private bool _syncingFromService;
 
     [ObservableProperty]
     private ResultState<UserProfile> _state = new Loading<UserProfile>();
@@ -18,10 +23,21 @@ public sealed partial class ProfileViewModel : ObservableObject
     [ObservableProperty] private UserProfile? _profileData;
     [ObservableProperty] private string _roleLabel = string.Empty;
 
-    public ProfileViewModel(IProfileRepository profile, ISessionService session)
+    [ObservableProperty] private bool _isAppearanceSystem;
+    [ObservableProperty] private bool _isAppearanceLight;
+    [ObservableProperty] private bool _isAppearanceDark;
+
+    public ProfileViewModel(
+        IProfileRepository profile,
+        ISessionService session,
+        IThemeService theme)
     {
         _profile = profile;
         _session = session;
+        _theme = theme;
+
+        SyncAppearanceFromService(_theme.CurrentMode);
+        _theme.ModeChanged += OnThemeChanged;
     }
 
     [RelayCommand]
@@ -56,6 +72,48 @@ public sealed partial class ProfileViewModel : ObservableObject
 
         _session.SignOut();
         await Shell.Current.GoToAsync("//login");
+    }
+
+    partial void OnIsAppearanceSystemChanged(bool value)
+    {
+        if (value && !_syncingFromService)
+        {
+            _ = _theme.SetModeAsync(AppearanceMode.System);
+        }
+    }
+
+    partial void OnIsAppearanceLightChanged(bool value)
+    {
+        if (value && !_syncingFromService)
+        {
+            _ = _theme.SetModeAsync(AppearanceMode.Light);
+        }
+    }
+
+    partial void OnIsAppearanceDarkChanged(bool value)
+    {
+        if (value && !_syncingFromService)
+        {
+            _ = _theme.SetModeAsync(AppearanceMode.Dark);
+        }
+    }
+
+    private void OnThemeChanged(object? sender, AppearanceMode mode)
+        => SyncAppearanceFromService(mode);
+
+    private void SyncAppearanceFromService(AppearanceMode mode)
+    {
+        _syncingFromService = true;
+        try
+        {
+            IsAppearanceSystem = mode == AppearanceMode.System;
+            IsAppearanceLight = mode == AppearanceMode.Light;
+            IsAppearanceDark = mode == AppearanceMode.Dark;
+        }
+        finally
+        {
+            _syncingFromService = false;
+        }
     }
 
     private static string RoleLabelFor(UserRole role) => role switch

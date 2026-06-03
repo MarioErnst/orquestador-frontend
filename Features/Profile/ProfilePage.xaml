@@ -47,6 +47,31 @@
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- Apariencia: appearance preference. System mirrors the OS
+                     scheme live; Light and Dark force one regardless. The
+                     ThemeService persists the choice in SecureStorage. -->
+                <Border Style="{StaticResource CardBorder}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Apariencia"
+                               Style="{StaticResource TitleMedium}" />
+                        <Label Text="Elegí cómo se ve la app. Sistema sigue el modo de tu teléfono."
+                               Style="{StaticResource BodySmall}"
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+
+                        <VerticalStackLayout Spacing="4">
+                            <RadioButton Content="Sistema"
+                                         GroupName="appearance"
+                                         IsChecked="{Binding IsAppearanceSystem, Mode=TwoWay}" />
+                            <RadioButton Content="Claro"
+                                         GroupName="appearance"
+                                         IsChecked="{Binding IsAppearanceLight, Mode=TwoWay}" />
+                            <RadioButton Content="Oscuro"
+                                         GroupName="appearance"
+                                         IsChecked="{Binding IsAppearanceDark, Mode=TwoWay}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
                 <Button Text="Cerrar sesión"
                         Style="{StaticResource OutlinedButton}"
                         Command="{Binding SignOutCommand}" />
