@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!--
+        Spacing tokens — 4 pt grid.
+        Pages and styles should reference these instead of literal margin and
+        padding values so rhythm stays consistent across the app.
+
+        Use:
+          Spacing2:   icon/text gap inside a single element.
+          Spacing4:   tight inline gap.
+          Spacing8:   default control spacing.
+          Spacing12:  inside cards between label and value.
+          Spacing16:  default page padding, card padding.
+          Spacing20:  prominent control padding.
+          Spacing24:  section spacing.
+          Spacing32:  page-level vertical rhythm.
+          Spacing40:  hero-level rhythm.
+    -->
+
+    <sys:Double x:Key="Spacing2">2</sys:Double>
+    <sys:Double x:Key="Spacing4">4</sys:Double>
+    <sys:Double x:Key="Spacing6">6</sys:Double>
+    <sys:Double x:Key="Spacing8">8</sys:Double>
+    <sys:Double x:Key="Spacing12">12</sys:Double>
+    <sys:Double x:Key="Spacing16">16</sys:Double>
+    <sys:Double x:Key="Spacing20">20</sys:Double>
+    <sys:Double x:Key="Spacing24">24</sys:Double>
+    <sys:Double x:Key="Spacing32">32</sys:Double>
+    <sys:Double x:Key="Spacing40">40</sys:Double>
+    <sys:Double x:Key="Spacing48">48</sys:Double>
+    <sys:Double x:Key="Spacing64">64</sys:Double>
+
+</ResourceDictionary>

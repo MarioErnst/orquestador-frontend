@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <!--
+        Shape tokens — Material 3 corner radius scale.
+        Used by Border/RoundRectangle in component styles. Page-level XAML
+        should reference the doubles below instead of magic numbers so the
+        whole UI scales coherently.
+
+        ShapeNone:   sharp corners (chips inside a tight row).
+        ShapeXs:     pill buttons, small inputs.
+        ShapeSm:     compact controls (chips, dense lists).
+        ShapeMd:     standard cards and dialogs (default).
+        ShapeLg:     hero cards and bottom-sheet style surfaces.
+        ShapeXl:     full-bleed media, splash blocks.
+        ShapeFull:   stadium/pill — used through CornerRadius binding.
+    -->
+
+    <sys:Double x:Key="ShapeNone">0</sys:Double>
+    <sys:Double x:Key="ShapeXs">4</sys:Double>
+    <sys:Double x:Key="ShapeSm">8</sys:Double>
+    <sys:Double x:Key="ShapeMd">12</sys:Double>
+    <sys:Double x:Key="ShapeLg">16</sys:Double>
+    <sys:Double x:Key="ShapeXl">24</sys:Double>
+    <sys:Double x:Key="ShapeXxl">28</sys:Double>
+    <sys:Double x:Key="ShapeFull">999</sys:Double>
+
+</ResourceDictionary>

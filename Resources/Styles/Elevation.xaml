@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--
+        Elevation tokens — Material 3 elevation scale, expressed as Shadow
+        instances suitable for assigning to a Border, Frame or Shape.
+
+        Material 3 expressive prefers tonal layers (SurfaceContainer*) over
+        heavy cast shadows. These shadow tokens are therefore intentionally
+        soft: a low-opacity black with a small Y offset and a moderate blur.
+        Use them to lift a surface visually without making the UI feel busy.
+
+        Elevation1: resting cards, list items.
+        Elevation2: tappable cards in their pressed state, contained buttons.
+        Elevation3: floating action buttons, navigation rail, prominent cards.
+        Elevation4: modal sheets when not full screen.
+        Elevation5: dialogs.
+
+        On dark scheme the shadow alpha is lower because over a dark surface a
+        black shadow becomes invisible; cards rely more on the tonal layer.
+    -->
+
+    <Shadow x:Key="Elevation1"
+            Brush="{StaticResource Scrim}"
+            Offset="0,1"
+            Radius="2"
+            Opacity="0.08" />
+
+    <Shadow x:Key="Elevation2"
+            Brush="{StaticResource Scrim}"
+            Offset="0,2"
+            Radius="6"
+            Opacity="0.10" />
+
+    <Shadow x:Key="Elevation3"
+            Brush="{StaticResource Scrim}"
+            Offset="0,4"
+            Radius="12"
+            Opacity="0.12" />
+
+    <Shadow x:Key="Elevation4"
+            Brush="{StaticResource Scrim}"
+            Offset="0,6"
+            Radius="18"
+            Opacity="0.14" />
+
+    <Shadow x:Key="Elevation5"
+            Brush="{StaticResource Scrim}"
+            Offset="0,8"
+            Radius="24"
+            Opacity="0.16" />
+
+    <!-- Dark-scheme shadows: same geometry, reduced alpha because they read
+         less over dark surfaces and we lean on tonal layers instead. -->
+    <Shadow x:Key="DarkElevation1"
+            Brush="{StaticResource DarkScrim}"
+            Offset="0,1"
+            Radius="2"
+            Opacity="0.20" />
+
+    <Shadow x:Key="DarkElevation2"
+            Brush="{StaticResource DarkScrim}"
+            Offset="0,2"
+            Radius="6"
+            Opacity="0.24" />
+
+    <Shadow x:Key="DarkElevation3"
+            Brush="{StaticResource DarkScrim}"
+            Offset="0,4"
+            Radius="12"
+            Opacity="0.28" />
+
+    <Shadow x:Key="DarkElevation4"
+            Brush="{StaticResource DarkScrim}"
+            Offset="0,6"
+            Radius="18"
+            Opacity="0.32" />
+
+    <Shadow x:Key="DarkElevation5"
+            Brush="{StaticResource DarkScrim}"
+            Offset="0,8"
+            Radius="24"
+            Opacity="0.36" />
+
+</ResourceDictionary>

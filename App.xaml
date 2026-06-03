@@ -8,7 +8,18 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--
+                    Order matters: tokens must load before the styles that
+                    consume them. Colors first (Shape/Spacing/Elevation reach
+                    into Colors via Scrim), then the shape/spacing/elevation
+                    scales, then the typography styles (which read OnSurface),
+                    and finally the component styles (which compose all of
+                    the above).
+                -->
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Shape.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Spacing.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Elevation.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Typography.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
