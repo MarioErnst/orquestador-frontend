@@ -50,6 +50,7 @@ public static class MauiProgram
         // --- Services
         builder.Services.AddSingleton<ISessionService, SessionService>();
         builder.Services.AddSingleton<INotificationNavigationService, NotificationNavigationService>();
+        builder.Services.AddSingleton<IThemeService, ThemeService>();
 
         // --- Pages and ViewModels: Transient so every navigation gets a fresh
         // instance bound to a fresh ViewModel.

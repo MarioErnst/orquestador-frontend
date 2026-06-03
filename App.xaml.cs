@@ -1,3 +1,5 @@
+using OrquestadorFrontend.Services;
+
 namespace OrquestadorFrontend;
 
 public partial class App : Application
@@ -12,6 +14,14 @@ public partial class App : Application
     {
         InitializeComponent();
         _services = services;
+
+        // Fire-and-forget the theme service so the persisted preference is
+        // applied as early as possible. The call returns before the window
+        // is created, so the worst case is a single frame where the OS
+        // theme is shown before the persisted Light/Dark override takes
+        // effect — acceptable for a cosmetic preference, and avoids
+        // blocking the launch path on a SecureStorage round-trip.
+        _ = _services.GetRequiredService<IThemeService>().InitializeAsync();
     }
 
     protected override Window CreateWindow(IActivationState? activationState) =>
