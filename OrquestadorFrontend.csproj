@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0-android;net10.0-ios</TargetFrameworks>
+    <!-- iOS requires macOS toolchain; exclude on Linux to allow local Android-only builds -->
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Linux'))">net10.0-android</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>OrquestadorFrontend</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -30,8 +32,8 @@
 
   <ItemGroup>
     <!-- Versions pinned per CLAUDE.md section 8 (no latest, no open ranges).
-         Aligned with .NET 10.0.108 SDK installed on the dev machine. -->
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.108" />
+         Microsoft.Maui.Controls version must match the installed MAUI workload (10.0.20). -->
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
   </ItemGroup>
