@@ -6,8 +6,7 @@
              xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
              x:Class="OrquestadorFrontend.Features.Documents.DocumentsListPage"
              x:DataType="vm:DocumentsListViewModel"
-             Title="Documentos"
-             BackgroundColor="{StaticResource Background}">
+             Title="Documentos">
 
     <Grid Padding="16">
         <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
@@ -38,11 +37,11 @@
                                        Style="{StaticResource TitleMedium}" />
                                 <Label Text="{Binding Description}"
                                        Style="{StaticResource BodySmall}"
-                                       TextColor="{StaticResource OnSurfaceVariant}" />
+                                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                             </VerticalStackLayout>
                             <Border Grid.Column="1"
                                     Stroke="Transparent"
-                                    BackgroundColor="{StaticResource PrimaryContainer}"
+                                    BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
                                     Padding="10,4"
                                     VerticalOptions="Start">
                                 <Border.StrokeShape>
@@ -50,7 +49,7 @@
                                 </Border.StrokeShape>
                                 <Label Text="{Binding Kind, Converter={StaticResource ReportKindLabelConverter}}"
                                        Style="{StaticResource LabelSmall}"
-                                       TextColor="{StaticResource OnPrimaryContainer}" />
+                                       TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}" />
                             </Border>
                         </Grid>
                     </Border>

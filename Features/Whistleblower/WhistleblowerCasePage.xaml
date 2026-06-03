@@ -7,7 +7,7 @@
              x:DataType="vm:WhistleblowerCaseViewModel"
              Title="Caso"
              Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource WhistleblowerSurface}">
+             BackgroundColor="{AppThemeBinding Light={StaticResource WhistleblowerSurface}, Dark={StaticResource DarkWhistleblowerSurface}}">
 
     <Grid>
         <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
@@ -28,7 +28,7 @@
                            Style="{StaticResource HeadlineSmall}" />
                     <Label Text="{Binding Case.Category}"
                            Style="{StaticResource BodyMedium}"
-                           TextColor="{StaticResource OnSurfaceVariant}" />
+                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                 </VerticalStackLayout>
 
                 <Border Style="{StaticResource WhistleblowerCardBorder}">
@@ -36,14 +36,14 @@
                         <Label Grid.Row="0" Grid.Column="0"
                                Text="Estado"
                                Style="{StaticResource LabelMedium}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                         <Label Grid.Row="0" Grid.Column="1"
                                Text="{Binding StatusLabel}"
                                Style="{StaticResource TitleSmall}" />
                         <Label Grid.Row="1" Grid.Column="0"
                                Text="Fecha de ingreso"
                                Style="{StaticResource LabelMedium}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                         <Label Grid.Row="1" Grid.Column="1"
                                Text="{Binding Case.ReceivedAt, StringFormat='{0:dd MMM yyyy}'}"
                                Style="{StaticResource TitleSmall}" />
@@ -59,7 +59,7 @@
                                Style="{StaticResource TitleSmall}" />
                         <Label Text="El alcance del contenido visible está pendiente de la decisión del área de cumplimiento. Por defecto, este módulo muestra metadatos y estado del caso, sin detalle libre."
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                     </VerticalStackLayout>
                 </Border>
 

@@ -7,8 +7,7 @@
              xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
              x:Class="OrquestadorFrontend.Features.Home.HomePage"
              x:DataType="vm:HomeViewModel"
-             Title="Inicio"
-             BackgroundColor="{StaticResource Background}">
+             Title="Inicio">
 
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="24">
@@ -19,7 +18,7 @@
                        Style="{StaticResource HeadlineSmall}" />
                 <Label Text="Resumen de hoy"
                        Style="{StaticResource BodyMedium}"
-                       TextColor="{StaticResource OnSurfaceVariant}" />
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
             </VerticalStackLayout>
 
             <!-- Indicadores clave -->
@@ -58,12 +57,12 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Último informe publicado"
                                Style="{StaticResource LabelMedium}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                         <Label Text="{Binding LatestReport.Title}"
                                Style="{StaticResource TitleMedium}" />
                         <Label Text="{Binding LatestReport.Description}"
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -75,12 +74,12 @@
                     <VerticalStackLayout Spacing="4">
                         <Label Text="Tablero habitual"
                                Style="{StaticResource LabelMedium}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                         <Label Text="{Binding FeaturedBoard.Name}"
                                Style="{StaticResource TitleMedium}" />
                         <Label Text="{Binding FeaturedBoard.Description}"
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -98,7 +97,7 @@
                                Style="{StaticResource TitleMedium}" />
                         <Label Text="Revisar casos abiertos y en investigación."
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>
@@ -128,7 +127,7 @@
                                            Style="{StaticResource TitleSmall}" />
                                     <Label Text="{Binding Body}"
                                            Style="{StaticResource BodySmall}"
-                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                                 </VerticalStackLayout>
                             </Border>
                         </DataTemplate>

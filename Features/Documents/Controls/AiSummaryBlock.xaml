@@ -9,9 +9,9 @@
         the user: the summary is help-text, never a replacement for the
         original document (Propuesta 1 §9.1, Propuesta 2 §4.4).
     -->
-    <Border Stroke="{StaticResource Secondary}"
+    <Border Stroke="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}"
             StrokeThickness="1"
-            BackgroundColor="{StaticResource SecondaryContainer}"
+            BackgroundColor="{AppThemeBinding Light={StaticResource SecondaryContainer}, Dark={StaticResource DarkSecondaryContainer}}"
             Padding="16">
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="12" />
@@ -19,13 +19,13 @@
         <VerticalStackLayout Spacing="8">
             <Label Text="Resumen generado por IA"
                    Style="{StaticResource LabelMedium}"
-                   TextColor="{StaticResource OnSecondaryContainer}" />
+                   TextColor="{AppThemeBinding Light={StaticResource OnSecondaryContainer}, Dark={StaticResource DarkOnSecondaryContainer}}" />
             <Label Text="{Binding Summary, Source={x:Reference Root}}"
                    Style="{StaticResource BodyMedium}"
-                   TextColor="{StaticResource OnSecondaryContainer}" />
+                   TextColor="{AppThemeBinding Light={StaticResource OnSecondaryContainer}, Dark={StaticResource DarkOnSecondaryContainer}}" />
             <Label Text="Asistencia a la lectura. El documento original es la fuente."
                    Style="{StaticResource BodySmall}"
-                   TextColor="{StaticResource OnSecondaryContainer}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSecondaryContainer}, Dark={StaticResource DarkOnSecondaryContainer}}"
                    Opacity="0.85" />
         </VerticalStackLayout>
     </Border>

@@ -7,8 +7,7 @@
              x:Class="OrquestadorFrontend.Features.Documents.DocumentViewerPage"
              x:DataType="vm:DocumentViewerViewModel"
              Title="Documento"
-             Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource Background}">
+             Shell.TabBarIsVisible="False">
 
     <Grid>
         <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
@@ -27,16 +26,16 @@
                            Style="{StaticResource HeadlineSmall}" />
                     <Label Text="{Binding Report.Description}"
                            Style="{StaticResource BodyMedium}"
-                           TextColor="{StaticResource OnSurfaceVariant}" />
+                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                 </VerticalStackLayout>
 
                 <!-- PDF viewer placeholder. Real implementation embeds a PDF
                      renderer; the document arrives as a short-lived signed URL
                      produced by the backend. -->
                 <Border IsVisible="{Binding IsPdf}"
-                        Stroke="{StaticResource OutlineVariant}"
+                        Stroke="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}"
                         StrokeThickness="1"
-                        BackgroundColor="{StaticResource SurfaceVariant}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceContainerHigh}, Dark={StaticResource DarkSurfaceContainerHigh}}"
                         Padding="24"
                         HeightRequest="240">
                     <Border.StrokeShape>
@@ -50,7 +49,7 @@
                                HorizontalTextAlignment="Center" />
                         <Label Text="(placeholder de prototipo)"
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}"
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                                HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
                 </Border>
@@ -60,7 +59,7 @@
 
                 <!-- Video player placeholder -->
                 <Border IsVisible="{Binding IsVideo}"
-                        Stroke="{StaticResource OutlineVariant}"
+                        Stroke="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}"
                         StrokeThickness="1"
                         BackgroundColor="Black"
                         Padding="24"
@@ -90,7 +89,7 @@
                                Style="{StaticResource TitleMedium}" />
                         <Label Text="En producción este enlace abre el documento en SharePoint usando tu sesión corporativa activa. Los permisos se heredan de tu identidad."
                                Style="{StaticResource BodySmall}"
-                               TextColor="{StaticResource OnSurfaceVariant}" />
+                               TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                     </VerticalStackLayout>
                 </Border>
 

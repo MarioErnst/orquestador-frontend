@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrquestadorFrontend.Features.Auth.LoginPage"
              Shell.NavBarIsVisible="False"
-             Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource Background}">
+             Shell.TabBarIsVisible="False">
 
     <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
 
@@ -22,7 +21,7 @@
                    HorizontalTextAlignment="Center" />
             <Label Text="Acceso para Directorio, Comité y Alta Gerencia"
                    Style="{StaticResource BodyMedium}"
-                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
@@ -35,7 +34,7 @@
                     Clicked="OnSignInClicked" />
             <Label Text="Si tu dispositivo no cumple las políticas corporativas, la app no permitirá el ingreso."
                    Style="{StaticResource BodySmall}"
-                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 

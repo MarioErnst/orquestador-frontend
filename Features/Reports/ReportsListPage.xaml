@@ -6,8 +6,7 @@
              xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
              x:Class="OrquestadorFrontend.Features.Reports.ReportsListPage"
              x:DataType="vm:ReportsListViewModel"
-             Title="Reportes"
-             BackgroundColor="{StaticResource Background}">
+             Title="Reportes">
 
     <Grid Padding="16">
         <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
@@ -37,7 +36,7 @@
                                    Style="{StaticResource TitleMedium}" />
                             <Label Text="{Binding Description}"
                                    Style="{StaticResource BodySmall}"
-                                   TextColor="{StaticResource OnSurfaceVariant}" />
+                                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>

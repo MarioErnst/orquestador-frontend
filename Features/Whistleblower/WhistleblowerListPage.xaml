@@ -8,7 +8,7 @@
              x:DataType="vm:WhistleblowerListViewModel"
              Title="Canal de Denuncias"
              Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource WhistleblowerSurface}">
+             BackgroundColor="{AppThemeBinding Light={StaticResource WhistleblowerSurface}, Dark={StaticResource DarkWhistleblowerSurface}}">
 
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="16">
@@ -21,7 +21,7 @@
                        Style="{StaticResource HeadlineSmall}" />
                 <Label Text="Casos recibidos por orden cronológico."
                        Style="{StaticResource BodyMedium}"
-                       TextColor="{StaticResource OnSurfaceVariant}" />
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
             </VerticalStackLayout>
 
             <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
@@ -52,7 +52,7 @@
                                            Style="{StaticResource TitleSmall}" />
                                     <Label Text="{Binding Category}"
                                            Style="{StaticResource BodySmall}"
-                                           TextColor="{StaticResource OnSurfaceVariant}" />
+                                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
                                 </VerticalStackLayout>
                                 <Label Grid.Column="1"
                                        Text="{Binding Status, Converter={StaticResource WhistleblowerStatusLabelConverter}}"

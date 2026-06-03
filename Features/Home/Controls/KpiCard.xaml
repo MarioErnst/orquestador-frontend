@@ -8,13 +8,13 @@
         <VerticalStackLayout Spacing="6">
             <Label Text="{Binding Label, Source={x:Reference Root}}"
                    Style="{StaticResource LabelMedium}"
-                   TextColor="{StaticResource OnSurfaceVariant}" />
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
             <HorizontalStackLayout Spacing="4" VerticalOptions="End">
                 <Label Text="{Binding Value, Source={x:Reference Root}}"
                        Style="{StaticResource HeadlineMedium}" />
                 <Label Text="{Binding Unit, Source={x:Reference Root}}"
                        Style="{StaticResource TitleSmall}"
-                       TextColor="{StaticResource OnSurfaceVariant}"
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                        VerticalOptions="End"
                        Margin="0,0,0,6" />
             </HorizontalStackLayout>
@@ -23,7 +23,7 @@
                    TextColor="{Binding StatusColor, Source={x:Reference Root}}" />
             <Label Text="{Binding Helper, Source={x:Reference Root}}"
                    Style="{StaticResource BodySmall}"
-                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    IsVisible="{Binding HasHelper, Source={x:Reference Root}}" />
         </VerticalStackLayout>
     </Border>

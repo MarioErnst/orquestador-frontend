@@ -6,8 +6,7 @@
              x:Class="OrquestadorFrontend.Features.Notifications.NotificationPreferencesPage"
              x:DataType="vm:NotificationPreferencesViewModel"
              Title="Preferencias"
-             Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource Background}">
+             Shell.TabBarIsVisible="False">
 
     <Grid Padding="16">
         <shared:LoadingState IsVisible="{Binding IsLoading}" />
@@ -28,8 +27,6 @@
                                    VerticalOptions="Center" />
                             <Switch Grid.Column="1"
                                     IsToggled="{Binding Enabled, Mode=TwoWay}"
-                                    OnColor="{StaticResource Primary}"
-                                    ThumbColor="White"
                                     VerticalOptions="Center" />
                         </Grid>
                     </Border>

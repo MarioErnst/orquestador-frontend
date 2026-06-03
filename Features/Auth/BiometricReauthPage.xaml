@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrquestadorFrontend.Features.Auth.BiometricReauthPage"
              Shell.NavBarIsVisible="False"
-             Shell.TabBarIsVisible="False"
-             BackgroundColor="{StaticResource Background}">
+             Shell.TabBarIsVisible="False">
 
     <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
 
@@ -17,7 +16,7 @@
                    HorizontalTextAlignment="Center" />
             <Label Text="Usá la biometría de tu dispositivo para continuar."
                    Style="{StaticResource BodyMedium}"
-                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    HorizontalTextAlignment="Center" />
         </VerticalStackLayout>
 
