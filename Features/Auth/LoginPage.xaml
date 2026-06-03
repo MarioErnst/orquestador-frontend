@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrquestadorFrontend.Features.Auth.LoginPage"
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
@@ -63,13 +62,7 @@
                         Text="Iniciar sesión con cuenta Microsoft"
                         Style="{StaticResource PrimaryButton}"
                         HorizontalOptions="Fill"
-                        Clicked="OnSignInClicked">
-                    <Button.Behaviors>
-                        <toolkit:TouchBehavior DefaultAnimationDuration="120"
-                                               PressedScale="0.98"
-                                               PressedOpacity="0.9" />
-                    </Button.Behaviors>
-                </Button>
+                        Clicked="OnSignInClicked" />
                 <Label Text="Si tu dispositivo no cumple las políticas corporativas, la app no permitirá el ingreso."
                        Style="{StaticResource BodySmall}"
                        TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
