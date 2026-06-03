@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Reports"
              xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
              xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrquestadorFrontend.Features.Reports.ReportsListPage"
              x:DataType="vm:ReportsListViewModel"
              Title="Reportes">
@@ -31,6 +32,11 @@
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReportsListViewModel}}, Path=OpenBoardCommand}"
                                 CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
+                        <Border.Behaviors>
+                            <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                                   PressedScale="0.97"
+                                                   PressedOpacity="0.9" />
+                        </Border.Behaviors>
                         <VerticalStackLayout Spacing="6">
                             <Label Text="{Binding Name}"
                                    Style="{StaticResource TitleMedium}" />

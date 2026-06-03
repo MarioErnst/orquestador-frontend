@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:OrquestadorFrontend.Features.Whistleblower"
              xmlns:shared="clr-namespace:OrquestadorFrontend.Shared.Controls"
              xmlns:models="clr-namespace:OrquestadorFrontend.Data.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrquestadorFrontend.Features.Whistleblower.WhistleblowerListPage"
              x:DataType="vm:WhistleblowerListViewModel"
              Title="Canal de Denuncias"
@@ -46,6 +47,11 @@
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WhistleblowerListViewModel}}, Path=OpenCaseCommand}"
                                     CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                                       PressedScale="0.97"
+                                                       PressedOpacity="0.9" />
+                            </Border.Behaviors>
                             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
                                 <VerticalStackLayout Grid.Column="0" Spacing="4">
                                     <Label Text="{Binding ReferenceCode}"
