@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="OrquestadorFrontend.Shared.Controls.AppBarTitle"
+             x:Name="Root">
+
+    <!--
+        Shell.TitleView for the main TabBar pages. Carries the page title on
+        the left and a tappable avatar on the right that navigates to the
+        Profile screen (Propuesta 2 §4.7: profile accessible from the
+        application header). Each Tab page sets Title=... on the instance.
+    -->
+    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12" VerticalOptions="Center">
+
+        <Label Grid.Column="0"
+               Text="{Binding Title, Source={x:Reference Root}}"
+               Style="{StaticResource TitleLarge}"
+               LineBreakMode="TailTruncation"
+               VerticalOptions="Center" />
+
+        <!--
+            Avatar / profile entry point. The Border carries the brand-tinted
+            circle, the Label inside renders the Material Icons "person"
+            glyph (codepoint e7fd), and the TouchBehavior gives haptic
+            feedback on press. Tap navigates to the registered profile route.
+        -->
+        <Border Grid.Column="1"
+                WidthRequest="36"
+                HeightRequest="36"
+                Padding="0"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
+                VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="18" />
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnAvatarTapped" />
+            </Border.GestureRecognizers>
+            <Border.Behaviors>
+                <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                       PressedScale="0.92"
+                                       PressedOpacity="0.85" />
+            </Border.Behaviors>
+            <Label Text="&#xe7fd;"
+                   FontFamily="MaterialIcons"
+                   FontSize="20"
+                   TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+        </Border>
+    </Grid>
+
+</ContentView>

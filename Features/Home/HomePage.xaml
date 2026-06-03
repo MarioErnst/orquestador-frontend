@@ -10,6 +10,11 @@
              x:DataType="vm:HomeViewModel"
              Title="Inicio">
 
+    <Shell.TitleView>
+        <shared:AppBarTitle Title="Inicio" />
+    </Shell.TitleView>
+
+
     <ScrollView>
         <VerticalStackLayout Padding="{StaticResource Spacing16}"
                              Spacing="{StaticResource Spacing24}">

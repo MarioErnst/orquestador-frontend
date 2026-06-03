@@ -9,6 +9,11 @@
              x:DataType="vm:NotificationsViewModel"
              Title="Notificaciones">
 
+    <Shell.TitleView>
+        <shared:AppBarTitle Title="Notificaciones" />
+    </Shell.TitleView>
+
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Preferencias" Command="{Binding OpenPreferencesCommand}" />
     </ContentPage.ToolbarItems>

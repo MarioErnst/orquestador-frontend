@@ -9,6 +9,11 @@
              x:DataType="vm:DocumentsListViewModel"
              Title="Documentos">
 
+    <Shell.TitleView>
+        <shared:AppBarTitle Title="Documentos" />
+    </Shell.TitleView>
+
+
     <Grid Padding="16">
         <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
         <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
