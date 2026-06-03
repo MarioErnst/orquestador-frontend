@@ -5,27 +5,56 @@
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
 
-    <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <VerticalStackLayout Grid.Row="0"
-                             Spacing="16"
+        <BoxView Grid.Row="0"
+                 HeightRequest="6"
+                 BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
+
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="{StaticResource Spacing20}"
+                             Padding="32,0"
                              HorizontalOptions="Center"
                              VerticalOptions="Center">
-            <Label Text="Confirmá tu identidad"
-                   Style="{StaticResource HeadlineSmall}"
-                   HorizontalTextAlignment="Center" />
-            <Label Text="Usá la biometría de tu dispositivo para continuar."
-                   Style="{StaticResource BodyMedium}"
-                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
-                   HorizontalTextAlignment="Center" />
+
+            <Border WidthRequest="96"
+                    HeightRequest="96"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
+                    HorizontalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="48" />
+                </Border.StrokeShape>
+                <Label Text="&#xe87c;"
+                       FontFamily="MaterialIcons"
+                       FontSize="44"
+                       TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Spacing="{StaticResource Spacing8}">
+                <Label Text="Confirmá tu identidad"
+                       Style="{StaticResource HeadlineMedium}"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Usá la biometría de tu dispositivo para continuar."
+                       Style="{StaticResource BodyLarge}"
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="12">
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="{StaticResource Spacing12}"
+                             Padding="24,16,24,32">
             <Button Text="Usar biometría"
                     Style="{StaticResource PrimaryButton}"
+                    HorizontalOptions="Fill"
                     Command="{Binding ConfirmCommand}" />
             <Button Text="Usar otra cuenta"
                     Style="{StaticResource TextButton}"
+                    HorizontalOptions="Fill"
                     Command="{Binding UseOtherAccountCommand}" />
         </VerticalStackLayout>
 

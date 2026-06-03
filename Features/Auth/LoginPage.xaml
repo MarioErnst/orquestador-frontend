@@ -5,37 +5,75 @@
              Shell.NavBarIsVisible="False"
              Shell.TabBarIsVisible="False">
 
-    <Grid Padding="24" RowDefinitions="*,Auto" RowSpacing="32">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <!-- Brand mark + app name. Logo placeholder uses the masterbrand
-             positiva preferida until the negative variant lands. -->
-        <VerticalStackLayout Grid.Row="0"
-                             Spacing="16"
+        <!-- Brand accent stripe: a thin band of brand green at the very top
+             so the page reads as ACHS at first glance without flooding the
+             screen with colour. -->
+        <BoxView Grid.Row="0"
+                 HeightRequest="6"
+                 BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
+
+        <!-- Hero block: logo, headline, supporting copy. Vertically centred
+             so it sits at the optical centre of the screen regardless of
+             device height. -->
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="{StaticResource Spacing20}"
+                             Padding="32,0"
                              HorizontalOptions="Center"
                              VerticalOptions="Center">
-            <Image Source="achs_masterbrand_positiva_preferida.png"
-                   HeightRequest="96"
-                   Aspect="AspectFit" />
-            <Label Text="App ACHS Directivos"
-                   Style="{StaticResource HeadlineSmall}"
-                   HorizontalTextAlignment="Center" />
-            <Label Text="Acceso para Directorio, Comité y Alta Gerencia"
-                   Style="{StaticResource BodyMedium}"
-                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
-                   HorizontalTextAlignment="Center" />
+
+            <Border WidthRequest="120"
+                    HeightRequest="120"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceContainerLowest}, Dark={StaticResource DarkSurfaceContainerHigh}}"
+                    Padding="20"
+                    HorizontalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="32" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Scrim}"
+                            Offset="0,8"
+                            Radius="24"
+                            Opacity="0.10" />
+                </Border.Shadow>
+                <Image Source="achs_masterbrand_positiva_preferida.png"
+                       Aspect="AspectFit" />
+            </Border>
+
+            <VerticalStackLayout Spacing="{StaticResource Spacing8}">
+                <Label Text="App ACHS Directivos"
+                       Style="{StaticResource HeadlineMedium}"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Acceso para Directorio, Comité y Alta Gerencia"
+                       Style="{StaticResource BodyLarge}"
+                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
+                       HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
         </VerticalStackLayout>
 
-        <!-- Sign-in button. The complexity of real authentication (MFA,
-             device check) lives in the Microsoft flow, not in the app. -->
-        <VerticalStackLayout Grid.Row="1" Spacing="12">
-            <Button x:Name="SignInButton"
-                    Text="Iniciar sesión con cuenta Microsoft"
-                    Style="{StaticResource PrimaryButton}"
-                    Clicked="OnSignInClicked" />
-            <Label Text="Si tu dispositivo no cumple las políticas corporativas, la app no permitirá el ingreso."
-                   Style="{StaticResource BodySmall}"
-                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
-                   HorizontalTextAlignment="Center" />
+        <!-- Action block: prominent CTA inside an elevated card so the
+             interactive area lifts visually from the page. -->
+        <VerticalStackLayout Grid.Row="2"
+                             Spacing="{StaticResource Spacing16}"
+                             Padding="24,16,24,32">
+
+            <Border Style="{StaticResource ElevatedCardBorder}">
+                <VerticalStackLayout Spacing="{StaticResource Spacing12}">
+                    <Button x:Name="SignInButton"
+                            Text="Iniciar sesión con cuenta Microsoft"
+                            Style="{StaticResource PrimaryButton}"
+                            HorizontalOptions="Fill"
+                            Clicked="OnSignInClicked" />
+                    <Label Text="Si tu dispositivo no cumple las políticas corporativas, la app no permitirá el ingreso."
+                           Style="{StaticResource BodySmall}"
+                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
 
     </Grid>
