@@ -17,7 +17,7 @@ public partial class LoginPage : ContentPage
     // production this code-behind disappears — the role comes from the token.
     private async void OnSignInClicked(object? sender, EventArgs e)
     {
-        var pick = await DisplayActionSheet(
+        var pick = await DisplayActionSheetAsync(
             title: "Ingresar como (prototipo)",
             cancel: "Cancelar",
             destruction: null,

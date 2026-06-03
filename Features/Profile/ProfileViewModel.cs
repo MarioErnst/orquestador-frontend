@@ -46,7 +46,7 @@ public sealed partial class ProfileViewModel : ObservableObject
     [RelayCommand]
     private async Task SignOutAsync()
     {
-        var confirmed = await Shell.Current.DisplayAlert(
+        var confirmed = await Shell.Current.DisplayAlertAsync(
             "Cerrar sesión",
             "¿Querés cerrar la sesión actual?",
             "Cerrar sesión",
