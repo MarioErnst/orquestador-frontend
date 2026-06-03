@@ -28,6 +28,17 @@
 
     <!-- Splash screen con fondo verde Masterbrand -->
     <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#13C045" BaseSize="128,128" />
+
+    <!--
+        Brand assets shipped with the app. Without these explicit globs the
+        MAUI SingleProject default include for fonts/images is bypassed by
+        the per-platform itemgroups above and the assets silently fail to
+        ship: the app then runs with the system font and without the ACHS
+        logo or Material Icons glyph font. The cost of being explicit is
+        less than the cost of the regression.
+    -->
+    <MauiFont Include="Resources\Fonts\*" />
+    <MauiImage Include="Resources\Images\*" />
   </ItemGroup>
 
   <ItemGroup>
