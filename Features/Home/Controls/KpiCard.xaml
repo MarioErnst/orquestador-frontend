@@ -4,12 +4,14 @@
              x:Class="OrquestadorFrontend.Features.Home.Controls.KpiCard"
              x:Name="Root">
 
-    <Border Style="{StaticResource CardBorder}">
-        <VerticalStackLayout Spacing="6">
+    <Border Style="{StaticResource ElevatedCardBorder}">
+        <VerticalStackLayout Spacing="{StaticResource Spacing6}">
             <Label Text="{Binding Label, Source={x:Reference Root}}"
                    Style="{StaticResource LabelMedium}"
-                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
-            <HorizontalStackLayout Spacing="4" VerticalOptions="End">
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
+                   LineBreakMode="TailTruncation" />
+
+            <HorizontalStackLayout Spacing="{StaticResource Spacing4}" VerticalOptions="End">
                 <Label Text="{Binding Value, Source={x:Reference Root}}"
                        Style="{StaticResource HeadlineMedium}" />
                 <Label Text="{Binding Unit, Source={x:Reference Root}}"
@@ -18,9 +20,20 @@
                        VerticalOptions="End"
                        Margin="0,0,0,6" />
             </HorizontalStackLayout>
-            <Label Text="{Binding StatusLabel, Source={x:Reference Root}}"
-                   Style="{StaticResource LabelSmall}"
-                   TextColor="{Binding StatusColor, Source={x:Reference Root}}" />
+
+            <!-- Status badge: small coloured dot + label so it reads even
+                 for users who do not distinguish the brand status colours. -->
+            <HorizontalStackLayout Spacing="{StaticResource Spacing6}"
+                                   VerticalOptions="Center">
+                <Ellipse WidthRequest="8"
+                         HeightRequest="8"
+                         Fill="{Binding StatusColor, Source={x:Reference Root}}"
+                         VerticalOptions="Center" />
+                <Label Text="{Binding StatusLabel, Source={x:Reference Root}}"
+                       Style="{StaticResource LabelSmall}"
+                       TextColor="{Binding StatusColor, Source={x:Reference Root}}" />
+            </HorizontalStackLayout>
+
             <Label Text="{Binding Helper, Source={x:Reference Root}}"
                    Style="{StaticResource BodySmall}"
                    TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"

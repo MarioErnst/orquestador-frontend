@@ -10,19 +10,21 @@
              Title="Inicio">
 
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="24">
+        <VerticalStackLayout Padding="{StaticResource Spacing16}"
+                             Spacing="{StaticResource Spacing24}">
 
             <!-- Header / greeting -->
-            <VerticalStackLayout Spacing="4">
+            <VerticalStackLayout Spacing="{StaticResource Spacing4}"
+                                 Padding="0,8,0,0">
                 <Label Text="{Binding Greeting}"
-                       Style="{StaticResource HeadlineSmall}" />
+                       Style="{StaticResource HeadlineMedium}" />
                 <Label Text="Resumen de hoy"
-                       Style="{StaticResource BodyMedium}"
+                       Style="{StaticResource BodyLarge}"
                        TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
             </VerticalStackLayout>
 
             <!-- Indicadores clave -->
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="{StaticResource Spacing12}">
                 <shared:SectionHeader Title="Indicadores clave" />
 
                 <shared:LoadingState IsVisible="{Binding KpisState, Converter={StaticResource IsLoadingConverter}}" />
@@ -46,7 +48,7 @@
             </VerticalStackLayout>
 
             <!-- Accesos rápidos -->
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="{StaticResource Spacing12}">
                 <shared:SectionHeader Title="Accesos rápidos" />
 
                 <Border Style="{StaticResource CardBorder}"
@@ -103,7 +105,7 @@
             </VerticalStackLayout>
 
             <!-- Alertas recientes -->
-            <VerticalStackLayout Spacing="12">
+            <VerticalStackLayout Spacing="{StaticResource Spacing12}">
                 <shared:SectionHeader Title="Alertas recientes" />
 
                 <shared:LoadingState IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsLoadingConverter}}" />
