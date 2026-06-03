@@ -42,11 +42,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Versions pinned per CLAUDE.md section 8 (no latest, no open ranges).
-         Microsoft.Maui.Controls version must match the installed MAUI workload (10.0.20). -->
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+    <!--
+        Versions pinned per CLAUDE.md section 8 (no latest, no open ranges).
+        Microsoft.Maui.Controls 10.0.70 is the latest stable on the .NET 10
+        wave and is required to unlock CommunityToolkit.Maui 14.x (which
+        depends on >= 10.0.60). The local maui-android workload manifest is
+        still 10.0.20, but the runtime package ships ahead of the workload
+        and the build works with that combination. Rationale and follow-up
+        in documentacion/decisiones/maui-controls-pin-2026-06.md.
+    -->
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.70" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+
+    <!--
+        Visual polish stack (CLAUDE.md section 1 — additions to the fixed
+        stack, authorised by the human in the restyle session 2026-06-03).
+        Each dependency justified in documentacion/decisiones/visual-deps-2026-06.md.
+    -->
+    <PackageReference Include="CommunityToolkit.Maui" Version="14.1.1" />
+    <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.119.4" />
+    <PackageReference Include="UraniumUI.Material" Version="2.16.0" />
   </ItemGroup>
 
 </Project>

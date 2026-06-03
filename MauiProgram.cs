@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using OrquestadorFrontend.Data.Mock;
 using OrquestadorFrontend.Data.Repositories;
@@ -9,6 +10,8 @@ using OrquestadorFrontend.Features.Profile;
 using OrquestadorFrontend.Features.Reports;
 using OrquestadorFrontend.Features.Whistleblower;
 using OrquestadorFrontend.Services;
+using SkiaSharp.Views.Maui.Controls.Hosting;
+using UraniumUI;
 
 namespace OrquestadorFrontend;
 
@@ -20,6 +23,19 @@ public static class MauiProgram
 
         builder
             .UseMauiApp<App>()
+            // CommunityToolkit.Maui — TouchBehavior, AnimationBehavior,
+            // Popup, StatusBarBehavior. Required initialiser per the
+            // package analyzer (MCT001).
+            .UseMauiCommunityToolkit()
+            // SkiaSharp views for hero visuals (gradients, skeleton
+            // loaders, custom charts).
+            .UseSkiaSharp()
+            // UraniumUI Material — Material 3 form controls with floating
+            // labels and proper focus/error states. Theme tokens are still
+            // owned by our own Colors.xaml; UraniumUI only provides the
+            // control templates.
+            .UseUraniumUI()
+            .UseUraniumUIMaterial()
             .ConfigureFonts(fonts =>
             {
                 // ACHS Masterbrand Variable Fonts. One file per family covers
@@ -30,6 +46,7 @@ public static class MauiProgram
                 // Icon font: Google Material Icons v4.0.0 (Apache 2.0).
                 // Referenced in XAML via FontFamily="MaterialIcons" and the
                 // glyph codepoints from the public ligature/codepoints table.
+                // UraniumUI controls also consume this family internally.
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
