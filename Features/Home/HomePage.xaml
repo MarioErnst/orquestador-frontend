@@ -88,7 +88,7 @@
                 <shared:SectionHeader Title="Accesos rápidos" />
 
                 <Border Style="{StaticResource CardBorder}"
-                        IsVisible="{Binding LatestReport, Converter={StaticResource IsDataConverter}}">
+                        IsVisible="{Binding LatestReport, Converter={StaticResource IsNotNullConverter}}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenLatestReportCommand}" />
                     </Border.GestureRecognizers>
@@ -110,7 +110,7 @@
                 </Border>
 
                 <Border Style="{StaticResource CardBorder}"
-                        IsVisible="{Binding FeaturedBoard, Converter={StaticResource IsDataConverter}}">
+                        IsVisible="{Binding FeaturedBoard, Converter={StaticResource IsNotNullConverter}}">
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenFeaturedBoardCommand}" />
                     </Border.GestureRecognizers>

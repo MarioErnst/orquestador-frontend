@@ -238,13 +238,23 @@ internal sealed class ThemeService : IThemeService
 
     private static IEnumerable<ContentPage> EnumerateContentPages(Shell shell)
     {
+        // The currently visible page is the most important target: it is
+        // always materialised, even when ShellContent uses lazy
+        // ContentTemplate resolution (so the iteration below over
+        // shell.Items would miss it). Yielded first so the user sees the
+        // active screen flip immediately.
+        if (shell.CurrentPage is ContentPage current)
+        {
+            yield return current;
+        }
+
         foreach (var item in shell.Items)
         {
             foreach (var section in item.Items)
             {
                 foreach (var content in section.Items)
                 {
-                    if (content.Content is ContentPage cp)
+                    if (content.Content is ContentPage cp && !ReferenceEquals(cp, shell.CurrentPage))
                     {
                         yield return cp;
                     }
@@ -259,7 +269,7 @@ internal sealed class ThemeService : IThemeService
         {
             foreach (var page in nav)
             {
-                if (page is ContentPage cp)
+                if (page is ContentPage cp && !ReferenceEquals(cp, shell.CurrentPage))
                 {
                     yield return cp;
                 }
@@ -270,7 +280,7 @@ internal sealed class ThemeService : IThemeService
         {
             foreach (var page in modals)
             {
-                if (page is ContentPage cp)
+                if (page is ContentPage cp && !ReferenceEquals(cp, shell.CurrentPage))
                 {
                     yield return cp;
                 }
