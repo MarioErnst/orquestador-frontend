@@ -26,6 +26,11 @@ public static class MauiProgram
                 // every weight; FontWeight on a Label/Style picks the variation.
                 fonts.AddFont("ACHSNuevaSans-VF.ttf", "ACHSNuevaSans");
                 fonts.AddFont("ACHSNuevaSerif-VF.ttf", "ACHSNuevaSerif");
+
+                // Icon font: Google Material Icons v4.0.0 (Apache 2.0).
+                // Referenced in XAML via FontFamily="MaterialIcons" and the
+                // glyph codepoints from the public ligature/codepoints table.
+                fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
         // --- Shell + App

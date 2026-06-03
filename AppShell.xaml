@@ -9,17 +9,34 @@
        x:Class="OrquestadorFrontend.AppShell"
        Title="App ACHS Directivos"
        Shell.FlyoutBehavior="Disabled"
-       Shell.BackgroundColor="{StaticResource Background}"
-       Shell.ForegroundColor="{StaticResource OnBackground}"
-       Shell.TitleColor="{StaticResource OnBackground}">
+       Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Surface}, Dark={StaticResource DarkSurface}}"
+       Shell.ForegroundColor="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource DarkOnSurface}}"
+       Shell.TitleColor="{AppThemeBinding Light={StaticResource OnSurface}, Dark={StaticResource DarkOnSurface}}"
+       Shell.NavBarHasShadow="False">
 
     <Shell.Resources>
+        <!-- Tab bar surface: a tonal SurfaceContainer level so it lifts
+             gently from the page background in both schemes. Active tab uses
+             Primary; inactive tabs sit on OnSurfaceVariant for legibility
+             without competing with the active one. -->
         <Style TargetType="TabBar">
-            <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource Surface}" />
-            <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource Primary}" />
-            <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource OnSurfaceVariant}" />
-            <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Primary}" />
+            <Setter Property="Shell.TabBarBackgroundColor"
+                    Value="{AppThemeBinding Light={StaticResource SurfaceContainer}, Dark={StaticResource DarkSurfaceContainer}}" />
+            <Setter Property="Shell.TabBarForegroundColor"
+                    Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
+            <Setter Property="Shell.TabBarUnselectedColor"
+                    Value="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+            <Setter Property="Shell.TabBarTitleColor"
+                    Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
         </Style>
+
+        <!-- Icon font glyphs for the bottom tab bar. Keeping the codepoints
+             here makes it easy to swap to a different icon set later without
+             walking the Shell content. -->
+        <FontImageSource x:Key="IconHome" FontFamily="MaterialIcons" Glyph="&#xe88a;" />
+        <FontImageSource x:Key="IconReports" FontFamily="MaterialIcons" Glyph="&#xe6dd;" />
+        <FontImageSource x:Key="IconDocuments" FontFamily="MaterialIcons" Glyph="&#xe873;" />
+        <FontImageSource x:Key="IconNotifications" FontFamily="MaterialIcons" Glyph="&#xe7f4;" />
     </Shell.Resources>
 
     <!-- 1. Entry point: Login.
@@ -33,19 +50,19 @@
     <!-- 2. Main app: TabBar with the four primary sections. -->
     <TabBar Route="main">
 
-        <Tab Title="Inicio" Route="home">
+        <Tab Title="Inicio" Route="home" Icon="{StaticResource IconHome}">
             <ShellContent ContentTemplate="{DataTemplate home:HomePage}" />
         </Tab>
 
-        <Tab Title="Reportes" Route="reports">
+        <Tab Title="Reportes" Route="reports" Icon="{StaticResource IconReports}">
             <ShellContent ContentTemplate="{DataTemplate reports:ReportsListPage}" />
         </Tab>
 
-        <Tab Title="Documentos" Route="documents">
+        <Tab Title="Documentos" Route="documents" Icon="{StaticResource IconDocuments}">
             <ShellContent ContentTemplate="{DataTemplate documents:DocumentsListPage}" />
         </Tab>
 
-        <Tab Title="Notificaciones" Route="notifications">
+        <Tab Title="Notificaciones" Route="notifications" Icon="{StaticResource IconNotifications}">
             <ShellContent ContentTemplate="{DataTemplate notifications:NotificationsPage}" />
         </Tab>
 
