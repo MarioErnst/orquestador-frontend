@@ -19,15 +19,45 @@
         <VerticalStackLayout Padding="{StaticResource Spacing16}"
                              Spacing="{StaticResource Spacing24}">
 
-            <!-- Header / greeting -->
-            <VerticalStackLayout Spacing="{StaticResource Spacing4}"
-                                 Padding="0,8,0,0">
-                <Label Text="{Binding Greeting}"
-                       Style="{StaticResource HeadlineMedium}" />
-                <Label Text="Resumen de hoy"
-                       Style="{StaticResource BodyLarge}"
-                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
-            </VerticalStackLayout>
+            <!--
+                Hero greeting: brand-tinted surface that anchors the dashboard
+                visually. PrimaryContainer in both schemes keeps the brand
+                green present without flooding the page, and the soft shadow
+                lifts it from the page background.
+            -->
+            <Border Padding="{StaticResource Spacing20}"
+                    StrokeThickness="0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
+                    Margin="0,4,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="{StaticResource Scrim}"
+                            Offset="0,4"
+                            Radius="12"
+                            Opacity="0.08" />
+                </Border.Shadow>
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{StaticResource Spacing12}">
+                    <VerticalStackLayout Grid.Column="0"
+                                         Spacing="{StaticResource Spacing4}">
+                        <Label Text="{Binding Greeting}"
+                               Style="{StaticResource HeadlineMedium}"
+                               TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}" />
+                        <Label Text="Resumen de hoy"
+                               Style="{StaticResource BodyLarge}"
+                               TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
+                               Opacity="0.78" />
+                    </VerticalStackLayout>
+                    <Label Grid.Column="1"
+                           Text="&#xe8b5;"
+                           FontFamily="MaterialIcons"
+                           FontSize="40"
+                           TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
+                           Opacity="0.6"
+                           VerticalOptions="Center" />
+                </Grid>
+            </Border>
 
             <!-- Indicadores clave -->
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
