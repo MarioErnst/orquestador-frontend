@@ -30,13 +30,36 @@
                     Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
         </Style>
 
-        <!-- Icon font glyphs for the bottom tab bar. Keeping the codepoints
-             here makes it easy to swap to a different icon set later without
-             walking the Shell content. -->
-        <FontImageSource x:Key="IconHome" FontFamily="MaterialIcons" Glyph="&#xe88a;" />
-        <FontImageSource x:Key="IconReports" FontFamily="MaterialIcons" Glyph="&#xe6dd;" />
-        <FontImageSource x:Key="IconDocuments" FontFamily="MaterialIcons" Glyph="&#xe873;" />
-        <FontImageSource x:Key="IconNotifications" FontFamily="MaterialIcons" Glyph="&#xe7f4;" />
+        <!--
+            Icon font glyphs for the bottom tab bar.
+
+            MAUI Shell on iOS does not honour TabBarUnselectedColor for
+            FontImageSource without an explicit Color set on the source
+            itself (dotnet/maui issues #10350, #20866). The Size is also
+            required: without it the glyph renders at 0px on iOS and
+            pixelated on Android. Both are set explicitly here to avoid
+            the silent invisible-icon failure mode.
+        -->
+        <FontImageSource x:Key="IconHome"
+                         FontFamily="MaterialIcons"
+                         Glyph="&#xe88a;"
+                         Size="24"
+                         Color="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+        <FontImageSource x:Key="IconReports"
+                         FontFamily="MaterialIcons"
+                         Glyph="&#xe6dd;"
+                         Size="24"
+                         Color="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+        <FontImageSource x:Key="IconDocuments"
+                         FontFamily="MaterialIcons"
+                         Glyph="&#xe873;"
+                         Size="24"
+                         Color="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+        <FontImageSource x:Key="IconNotifications"
+                         FontFamily="MaterialIcons"
+                         Glyph="&#xe7f4;"
+                         Size="24"
+                         Color="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
     </Shell.Resources>
 
     <!-- 1. Entry point: Login.
