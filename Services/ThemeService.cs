@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Platform;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Storage;
 
@@ -29,6 +31,32 @@ internal sealed class ThemeService : IThemeService
     {
         var persisted = await ReadPersistedAsync().ConfigureAwait(false);
         ApplyOnMainThread(persisted);
+        SubscribeToSystemThemeChanges();
+    }
+
+    // When the mode is System we still need to refresh the status bar
+    // when the OS-level scheme changes (user pulls the quick-settings
+    // toggle, sunrise/sunset auto-mode, etc.). MAUI updates the
+    // AppThemeBinding pairs on its own; the status bar is platform-level
+    // and does not, so the service reacts to keep both in sync.
+    private void SubscribeToSystemThemeChanges()
+    {
+        var app = Application.Current;
+        if (app is null)
+        {
+            return;
+        }
+
+        app.RequestedThemeChanged -= OnSystemRequestedThemeChanged;
+        app.RequestedThemeChanged += OnSystemRequestedThemeChanged;
+    }
+
+    private void OnSystemRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        if (_currentMode == AppearanceMode.System)
+        {
+            MainThread.BeginInvokeOnMainThread(() => ApplyStatusBarFor(e.RequestedTheme));
+        }
     }
 
     public async Task SetModeAsync(AppearanceMode mode)
@@ -96,8 +124,32 @@ internal sealed class ThemeService : IThemeService
                 _ => AppTheme.Unspecified,
             };
 
+            ApplyStatusBarFor(app.RequestedTheme);
+
             _currentMode = mode;
             ModeChanged?.Invoke(this, mode);
         });
+    }
+
+    // Status bar colour and text style must match the resolved theme so the
+    // chrome reads as one piece with the app. CommunityToolkit.Maui exposes
+    // the platform-specific calls behind a single API; failures are
+    // swallowed because some headless contexts (test runners, snapshot
+    // captures) do not have a window to update.
+    private static void ApplyStatusBarFor(AppTheme resolvedTheme)
+    {
+        try
+        {
+            var (color, style) = resolvedTheme == AppTheme.Dark
+                ? (Color.FromArgb("#1C1F20"), StatusBarStyle.LightContent)
+                : (Color.FromArgb("#F1F0EB"), StatusBarStyle.DarkContent);
+
+            StatusBar.SetColor(color);
+            StatusBar.SetStyle(style);
+        }
+        catch
+        {
+            // Headless / unsupported context — ignored.
+        }
     }
 }
