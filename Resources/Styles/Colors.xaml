@@ -3,17 +3,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!--
-        ACHS Masterbrand color tokens.
+        ACHS Masterbrand color tokens (light + dark scheme).
         Source: Manual de Marca Achs (Jul-2023), pages 64-65.
-        Rationale documented in documentacion/decisiones/brand-identity-achs-maui.md.
+        Rationale documented in documentacion/decisiones/brand-identity-achs-maui.md
+        and (for the dark scheme) documentacion/decisiones/visual-system-m3-dark-mode.md.
 
-        Raw tokens are exposed individually so a screen that needs a specific
-        Masterbrand color can reference it explicitly (e.g. BrandBeige as a
-        surface). Semantic tokens further down map brand colors to a Material 3
-        style scheme used by component styles in Styles.xaml.
+        Naming convention:
+          - Raw brand tokens (BrandGreen, BrandNeon, ...) are scheme-agnostic.
+          - Semantic tokens without a prefix (Primary, Surface, ...) hold the
+            LIGHT scheme value. Use them as the Light= arm of AppThemeBinding.
+          - Tokens with the Dark prefix (DarkPrimary, DarkSurface, ...) hold
+            the DARK scheme value. Use them as the Dark= arm of AppThemeBinding.
+
+        Styles.xaml is the only place that should reference these tokens as a
+        Light/Dark pair through AppThemeBinding; pages should consume the
+        result through Style keys (CardBorder, BodyMedium, ...), not bind to
+        Primary/DarkPrimary directly.
     -->
 
-    <!-- Raw brand tokens (Manual de Marca) -->
+    <!-- ==================== Raw brand tokens (Manual de Marca) ==================== -->
     <Color x:Key="BrandGreen">#13C045</Color>
     <Color x:Key="BrandGreenDark">#004C14</Color>
     <Color x:Key="BrandNeon">#7EFF45</Color>
@@ -23,10 +31,8 @@
     <Color x:Key="BrandGreenComplementary">#81D877</Color>
     <Color x:Key="BrandGreenComplementaryDark">#27933E</Color>
 
-    <!--
-        Status colors. Sober palette preserved on purpose so a dashboard full
-        of OK indicators does not blend with the brand green chrome.
-    -->
+    <!-- ==================== Status colors (sober, scheme-aware) ==================== -->
+    <!-- Light scheme: sober tones over light surfaces. -->
     <Color x:Key="StatusOk">#1F7A4F</Color>
     <Color x:Key="StatusWarn">#B7791F</Color>
     <Color x:Key="StatusAlert">#B42318</Color>
@@ -34,15 +40,19 @@
     <Color x:Key="StatusWarnContainer">#FBE8C7</Color>
     <Color x:Key="StatusAlertContainer">#FAD0CB</Color>
 
-    <!--
-        Material 3 semantic mapping. The scheme uses BrandGreen as the seed
-        (primary) and reserves BrandNeon for tertiary accents (badges, active
-        indicators, micro-interactions) per Manual de Marca page 65.
+    <!-- Dark scheme: lifted tones for legibility on dark surfaces; containers
+         become deep tinted blocks instead of the light pastels above. -->
+    <Color x:Key="DarkStatusOk">#5DCC8B</Color>
+    <Color x:Key="DarkStatusWarn">#E4A845</Color>
+    <Color x:Key="DarkStatusAlert">#FF8A7A</Color>
+    <Color x:Key="DarkStatusOkContainer">#143B26</Color>
+    <Color x:Key="DarkStatusWarnContainer">#3B2B0F</Color>
+    <Color x:Key="DarkStatusAlertContainer">#481712</Color>
 
-        Text on brand green is white because BrandGreen on white has contrast
-        ~2.5:1 (insufficient for body text). Text on neon is black because the
-        neon-on-white contrast is ~1.5:1 — purely decorative.
-    -->
+    <!-- ==================== Material 3 semantic tokens — LIGHT scheme ==================== -->
+    <!-- Primary: BrandGreen is the seed. Text on Primary surfaces stays white
+         because BrandGreen on white has contrast ~2.5:1 (insufficient for body
+         text), and white on BrandGreen reaches ~6:1 (AA). -->
     <Color x:Key="Primary">#13C045</Color>
     <Color x:Key="OnPrimary">#FFFFFF</Color>
     <Color x:Key="PrimaryContainer">#B8F0C9</Color>
@@ -63,22 +73,92 @@
     <Color x:Key="ErrorContainer">#FAD0CB</Color>
     <Color x:Key="OnErrorContainer">#6E1612</Color>
 
-    <!--
-        Neutral surfaces. Background stays neutral (white-ish) so BrandBeige
-        is used explicitly per screen when a warmer surface is wanted.
-    -->
     <Color x:Key="Background">#FFFFFF</Color>
-    <Color x:Key="OnBackground">#000000</Color>
+    <Color x:Key="OnBackground">#1B1C1E</Color>
     <Color x:Key="Surface">#FAFAFA</Color>
-    <Color x:Key="OnSurface">#000000</Color>
+    <Color x:Key="OnSurface">#1B1C1E</Color>
     <Color x:Key="SurfaceVariant">#EAEADE</Color>
     <Color x:Key="OnSurfaceVariant">#2B2B24</Color>
     <Color x:Key="Outline">#79747E</Color>
     <Color x:Key="OutlineVariant">#CAC4D0</Color>
 
-    <!-- Whistleblower channel surface. Sober tone, distinct from regular app chrome. -->
+    <!-- Tonal layers (Material 3 expressive). Each level is a slightly tinted
+         neutral surface; combined they replace heavy shadows when stacking
+         cards over backgrounds. Light scheme blends toward warmer white. -->
+    <Color x:Key="SurfaceContainerLowest">#FFFFFF</Color>
+    <Color x:Key="SurfaceContainerLow">#F7F6F2</Color>
+    <Color x:Key="SurfaceContainer">#F1F0EB</Color>
+    <Color x:Key="SurfaceContainerHigh">#EBEAE3</Color>
+    <Color x:Key="SurfaceContainerHighest">#E5E3DB</Color>
+
+    <!-- Inverse tokens for components that flip the scheme on demand
+         (Snackbar, tooltips, contextual overlays). -->
+    <Color x:Key="InverseSurface">#2F3133</Color>
+    <Color x:Key="InverseOnSurface">#F1F0EB</Color>
+    <Color x:Key="InversePrimary">#4ADB6A</Color>
+
+    <!-- Overlay scrim used for modals/dialogs. Opaque hex; opacity is applied
+         by the consuming control via Opacity= or via per-platform alpha. -->
+    <Color x:Key="Scrim">#000000</Color>
+
+    <!-- Whistleblower channel — sober, distinct surface (light scheme). -->
     <Color x:Key="WhistleblowerSurface">#F5F2E8</Color>
     <Color x:Key="WhistleblowerOnSurface">#2B2B24</Color>
     <Color x:Key="WhistleblowerAccent">#27933E</Color>
+
+    <!-- ==================== Material 3 semantic tokens — DARK scheme ==================== -->
+    <!-- Primary in dark is a lifted BrandGreen (#4ADB6A) so it remains readable
+         on the dark neutral surfaces. The dark-mode text colour for primary
+         surfaces is a deep green ink for visual coherence with the brand. -->
+    <Color x:Key="DarkPrimary">#4ADB6A</Color>
+    <Color x:Key="DarkOnPrimary">#003919</Color>
+    <Color x:Key="DarkPrimaryContainer">#00541F</Color>
+    <Color x:Key="DarkOnPrimaryContainer">#B8F0C9</Color>
+
+    <Color x:Key="DarkSecondary">#8DCCA2</Color>
+    <Color x:Key="DarkOnSecondary">#0A3C19</Color>
+    <Color x:Key="DarkSecondaryContainer">#1F5530</Color>
+    <Color x:Key="DarkOnSecondaryContainer">#D6F1E3</Color>
+
+    <Color x:Key="DarkTertiary">#7EFF45</Color>
+    <Color x:Key="DarkOnTertiary">#000000</Color>
+    <Color x:Key="DarkTertiaryContainer">#003A14</Color>
+    <Color x:Key="DarkOnTertiaryContainer">#E2FBD2</Color>
+
+    <Color x:Key="DarkError">#FFB4AB</Color>
+    <Color x:Key="DarkOnError">#690006</Color>
+    <Color x:Key="DarkErrorContainer">#93000F</Color>
+    <Color x:Key="DarkOnErrorContainer">#FFDAD7</Color>
+
+    <!-- Dark background avoids pure black (#000) so OLED screens still show
+         soft edges and there is room for tonal layers above it. -->
+    <Color x:Key="DarkBackground">#0F1011</Color>
+    <Color x:Key="DarkOnBackground">#E3E2E5</Color>
+    <Color x:Key="DarkSurface">#161718</Color>
+    <Color x:Key="DarkOnSurface">#E3E2E5</Color>
+    <Color x:Key="DarkSurfaceVariant">#43474A</Color>
+    <Color x:Key="DarkOnSurfaceVariant">#C4C7C8</Color>
+    <Color x:Key="DarkOutline">#8F9192</Color>
+    <Color x:Key="DarkOutlineVariant">#43474A</Color>
+
+    <!-- Tonal layers — dark scheme. Five levels step up the lightness; Material
+         3 expressive uses them to stack cards without relying on cast shadows. -->
+    <Color x:Key="DarkSurfaceContainerLowest">#0A0B0B</Color>
+    <Color x:Key="DarkSurfaceContainerLow">#181A1B</Color>
+    <Color x:Key="DarkSurfaceContainer">#1C1F20</Color>
+    <Color x:Key="DarkSurfaceContainerHigh">#272A2C</Color>
+    <Color x:Key="DarkSurfaceContainerHighest">#323537</Color>
+
+    <Color x:Key="DarkInverseSurface">#E3E2E5</Color>
+    <Color x:Key="DarkInverseOnSurface">#1B1C1E</Color>
+    <Color x:Key="DarkInversePrimary">#13C045</Color>
+
+    <Color x:Key="DarkScrim">#000000</Color>
+
+    <!-- Whistleblower channel — dark scheme. Slightly warmer than the regular
+         dark surface so the module still reads as "different and graver". -->
+    <Color x:Key="DarkWhistleblowerSurface">#1F1E1A</Color>
+    <Color x:Key="DarkWhistleblowerOnSurface">#E5E2D5</Color>
+    <Color x:Key="DarkWhistleblowerAccent">#5DCC8B</Color>
 
 </ResourceDictionary>
