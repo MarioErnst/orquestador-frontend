@@ -13,7 +13,16 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
         _vm = vm;
         BindingContext = vm;
-        Application.Current!.RequestedThemeChanged += OnSystemThemeChanged;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (Application.Current is { } app)
+        {
+            app.RequestedThemeChanged += OnSystemThemeChanged;
+        }
+        HeroCanvas.InvalidateSurface();
     }
 
     protected override void OnDisappearing()

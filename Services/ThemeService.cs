@@ -53,10 +53,20 @@ internal sealed class ThemeService : IThemeService
 
     private void OnSystemRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
     {
-        if (_currentMode == AppearanceMode.System)
+        if (_currentMode != AppearanceMode.System)
         {
-            MainThread.BeginInvokeOnMainThread(() => ApplyStatusBarFor(e.RequestedTheme));
+            return;
         }
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (Application.Current is { } app)
+            {
+                ForceShellChromeRefresh(app);
+            }
+
+            ApplyStatusBarFor(e.RequestedTheme);
+        });
     }
 
     public async Task SetModeAsync(AppearanceMode mode)
@@ -124,11 +134,77 @@ internal sealed class ThemeService : IThemeService
                 _ => AppTheme.Unspecified,
             };
 
+            ForceShellChromeRefresh(app);
             ApplyStatusBarFor(app.RequestedTheme);
 
             _currentMode = mode;
             ModeChanged?.Invoke(this, mode);
         });
+    }
+
+    // Workaround for dotnet/maui#6596 and #20243: Shell.BackgroundColor,
+    // Shell.ForegroundColor, Shell.TitleColor and the TabBar colour
+    // setters do not always refresh when Application.UserAppTheme changes
+    // at runtime, even though the AppThemeBinding pair is supposed to be
+    // reactive. The result was the page chrome staying frozen in the
+    // previous scheme until the next navigation. The fix is to read the
+    // resolved palette from Application.Resources and re-assign each
+    // Shell property imperatively. The work is cheap (a handful of
+    // dictionary lookups), runs once per toggle, and matches what MAUI
+    // should be doing for us.
+    private static void ForceShellChromeRefresh(Application app)
+    {
+        var shell = Shell.Current;
+        if (shell is null)
+        {
+            return;
+        }
+
+        var isDark = app.RequestedTheme == AppTheme.Dark;
+        var surface = isDark ? "DarkSurface" : "Surface";
+        var onSurface = isDark ? "DarkOnSurface" : "OnSurface";
+        var surfaceContainer = isDark ? "DarkSurfaceContainer" : "SurfaceContainer";
+        var primary = isDark ? "DarkPrimary" : "Primary";
+        var onSurfaceVariant = isDark ? "DarkOnSurfaceVariant" : "OnSurfaceVariant";
+
+        if (TryResolveColor(app, surface, out var surfaceColor))
+        {
+            shell.BackgroundColor = surfaceColor;
+        }
+
+        if (TryResolveColor(app, onSurface, out var onSurfaceColor))
+        {
+            Shell.SetForegroundColor(shell, onSurfaceColor);
+            Shell.SetTitleColor(shell, onSurfaceColor);
+        }
+
+        if (TryResolveColor(app, surfaceContainer, out var tabBg))
+        {
+            Shell.SetTabBarBackgroundColor(shell, tabBg);
+        }
+
+        if (TryResolveColor(app, primary, out var primaryColor))
+        {
+            Shell.SetTabBarForegroundColor(shell, primaryColor);
+            Shell.SetTabBarTitleColor(shell, primaryColor);
+        }
+
+        if (TryResolveColor(app, onSurfaceVariant, out var unselectedColor))
+        {
+            Shell.SetTabBarUnselectedColor(shell, unselectedColor);
+        }
+    }
+
+    private static bool TryResolveColor(Application app, string key, out Color color)
+    {
+        if (app.Resources.TryGetValue(key, out var raw) && raw is Color resolved)
+        {
+            color = resolved;
+            return true;
+        }
+
+        color = Colors.Transparent;
+        return false;
     }
 
     // Status bar colour and text style must match the resolved theme so the
