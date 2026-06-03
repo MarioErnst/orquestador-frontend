@@ -166,6 +166,7 @@ internal sealed class ThemeService : IThemeService
         var surfaceContainer = isDark ? "DarkSurfaceContainer" : "SurfaceContainer";
         var primary = isDark ? "DarkPrimary" : "Primary";
         var onSurfaceVariant = isDark ? "DarkOnSurfaceVariant" : "OnSurfaceVariant";
+        var background = isDark ? "DarkBackground" : "Background";
 
         if (TryResolveColor(app, surface, out var surfaceColor))
         {
@@ -192,6 +193,88 @@ internal sealed class ThemeService : IThemeService
         if (TryResolveColor(app, onSurfaceVariant, out var unselectedColor))
         {
             Shell.SetTabBarUnselectedColor(shell, unselectedColor);
+        }
+
+        // ContentPage.BackgroundColor with AppThemeBinding does not refresh
+        // on UserAppTheme changes either (same bug family). Walk every
+        // ContentPage currently materialised under the Shell — TabBar tabs,
+        // modal stack, navigation stack — and re-assign the page
+        // background imperatively so the body of the screen flips along
+        // with the chrome.
+        var whistleblowerKey = isDark ? "DarkWhistleblowerSurface" : "WhistleblowerSurface";
+        var hasDefaultBg = TryResolveColor(app, background, out var defaultBg);
+        var hasWhistleblowerBg = TryResolveColor(app, whistleblowerKey, out var whistleblowerBg);
+
+        if (hasDefaultBg || hasWhistleblowerBg)
+        {
+            ForceBackgroundOnContentPages(shell, defaultBg, whistleblowerBg, hasDefaultBg, hasWhistleblowerBg);
+        }
+    }
+
+    private static void ForceBackgroundOnContentPages(
+        Shell shell,
+        Color defaultBg,
+        Color whistleblowerBg,
+        bool hasDefaultBg,
+        bool hasWhistleblowerBg)
+    {
+        foreach (var page in EnumerateContentPages(shell))
+        {
+            // Whistleblower pages keep their distinct warm surface; every
+            // other ContentPage gets the regular page background.
+            var typeName = page.GetType().Name;
+            var isWhistleblower = typeName.StartsWith("Whistleblower", StringComparison.Ordinal);
+
+            if (isWhistleblower && hasWhistleblowerBg)
+            {
+                page.BackgroundColor = whistleblowerBg;
+            }
+            else if (!isWhistleblower && hasDefaultBg)
+            {
+                page.BackgroundColor = defaultBg;
+            }
+        }
+    }
+
+    private static IEnumerable<ContentPage> EnumerateContentPages(Shell shell)
+    {
+        foreach (var item in shell.Items)
+        {
+            foreach (var section in item.Items)
+            {
+                foreach (var content in section.Items)
+                {
+                    if (content.Content is ContentPage cp)
+                    {
+                        yield return cp;
+                    }
+                }
+            }
+        }
+
+        // Pages pushed via GoToAsync (Navigation stack on top of the
+        // current section). Includes pages like Profile, BoardViewer,
+        // DocumentViewer, NotificationPreferences when they are open.
+        if (shell.Navigation?.NavigationStack is { } nav)
+        {
+            foreach (var page in nav)
+            {
+                if (page is ContentPage cp)
+                {
+                    yield return cp;
+                }
+            }
+        }
+
+        if (shell.Navigation?.ModalStack is { } modals)
+        {
+            foreach (var page in modals)
+            {
+                if (page is ContentPage cp)
+                {
+                    yield return cp;
+                }
+            }
         }
     }
 
