@@ -3,79 +3,195 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!--
-        Base component styles aligned with Material 3 conventions. Touch
-        targets meet the 44pt minimum required by the brand identity
-        accessibility note.
+        Component styles for the Material 3 surface that ACHS Masterbrand
+        sits on. Every colour and shadow goes through AppThemeBinding so the
+        app responds to the system theme (and later, to the in-app toggle in
+        Profile).
+
+        Touch targets follow the 44 pt minimum noted in the brand identity
+        accessibility section. Shape and spacing reference the dictionaries
+        added in the Shape/Spacing/Elevation commit instead of magic
+        numbers.
     -->
 
-    <!-- Implicit ContentPage background uses the neutral surface so brand
-         beige can be applied per screen when warmth is desired. -->
+    <!--
+        Implicit ContentPage background. Pages should drop their explicit
+        BackgroundColor binding and let this implicit style supply the
+        theme-aware surface; the page migration in Block C of the restyle
+        cleans up the remaining direct {StaticResource Background} usages.
+    -->
     <Style TargetType="ContentPage">
-        <Setter Property="BackgroundColor" Value="{StaticResource Background}" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}" />
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <!-- Primary (filled) button. Brand green with white text. -->
+    <!--
+        Primary (filled) button. Brand green with white text. Visual states
+        give the user pressed/disabled feedback without code-behind.
+    -->
     <Style x:Key="PrimaryButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TextColor" Value="{StaticResource OnPrimary}" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource OnPrimary}, Dark={StaticResource DarkOnPrimary}}" />
         <Setter Property="FontFamily" Value="ACHSNuevaSans" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="CornerRadius" Value="{StaticResource ShapeXl}" />
         <Setter Property="Padding" Value="24,12" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="Shadow"
+                Value="{AppThemeBinding Light={StaticResource Elevation1}, Dark={StaticResource DarkElevation1}}" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.85" />
+                            <Setter Property="Scale" Value="0.98" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.38" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
-    <!-- Tonal (secondary container) button. Soft brand surface. -->
+    <!-- Tonal (secondary container) button. Soft brand surface for medium
+         emphasis actions. -->
     <Style x:Key="TonalButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryContainer}" />
-        <Setter Property="TextColor" Value="{StaticResource OnPrimaryContainer}" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}" />
         <Setter Property="FontFamily" Value="ACHSNuevaSans" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="CornerRadius" Value="{StaticResource ShapeXl}" />
         <Setter Property="Padding" Value="24,12" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.88" />
+                            <Setter Property="Scale" Value="0.98" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.38" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <!-- Outlined button. Brand-coloured stroke, transparent fill. -->
     <Style x:Key="OutlinedButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource Primary}" />
-        <Setter Property="BorderColor" Value="{StaticResource Outline}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
+        <Setter Property="BorderColor"
+                Value="{AppThemeBinding Light={StaticResource Outline}, Dark={StaticResource DarkOutline}}" />
         <Setter Property="BorderWidth" Value="1" />
         <Setter Property="FontFamily" Value="ACHSNuevaSans" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="CornerRadius" Value="24" />
+        <Setter Property="CornerRadius" Value="{StaticResource ShapeXl}" />
         <Setter Property="Padding" Value="24,12" />
         <Setter Property="MinimumHeightRequest" Value="44" />
         <Setter Property="MinimumWidthRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.7" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.38" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <!-- Text button. No background, no border. Used for tertiary actions. -->
     <Style x:Key="TextButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}" />
         <Setter Property="FontFamily" Value="ACHSNuevaSans" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="Padding" Value="12,8" />
         <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.7" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.38" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <!--
         Card surface used by AppCard and any custom card-like container.
-        Border instead of Frame to match modern MAUI 8 conventions.
+        Background uses SurfaceContainerLow to lift the card softly from the
+        page background; a tonal step plus a small Elevation1 shadow gives
+        the Material 3 expressive feel without overbearing depth.
     -->
     <Style x:Key="CardBorder" TargetType="Border">
-        <Setter Property="Stroke" Value="{StaticResource OutlineVariant}" />
+        <Setter Property="Stroke"
+                Value="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Surface}" />
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource SurfaceContainerLow}, Dark={StaticResource DarkSurfaceContainerLow}}" />
+        <Setter Property="Padding" Value="{StaticResource Spacing16}" />
+        <Setter Property="Shadow"
+                Value="{AppThemeBinding Light={StaticResource Elevation1}, Dark={StaticResource DarkElevation1}}" />
         <Setter Property="StrokeShape">
             <Setter.Value>
                 <RoundRectangle CornerRadius="16" />
@@ -83,12 +199,38 @@
         </Setter>
     </Style>
 
-    <!-- Card used inside the Whistleblower channel: warmer surface, no stroke. -->
+    <!--
+        Variant card with no stroke, sitting on the highest tonal layer for
+        more prominence (used for hero cards in the Inicio dashboard).
+    -->
+    <Style x:Key="ElevatedCardBorder" TargetType="Border">
+        <Setter Property="Stroke" Value="Transparent" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource SurfaceContainerHigh}, Dark={StaticResource DarkSurfaceContainerHigh}}" />
+        <Setter Property="Padding" Value="{StaticResource Spacing16}" />
+        <Setter Property="Shadow"
+                Value="{AppThemeBinding Light={StaticResource Elevation2}, Dark={StaticResource DarkElevation2}}" />
+        <Setter Property="StrokeShape">
+            <Setter.Value>
+                <RoundRectangle CornerRadius="20" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        Whistleblower card. Warmer surface, no stroke, smaller corner radius.
+        Visually distinct from regular app cards on purpose: the user should
+        feel the channel is treated with extra care.
+    -->
     <Style x:Key="WhistleblowerCardBorder" TargetType="Border">
         <Setter Property="Stroke" Value="Transparent" />
         <Setter Property="StrokeThickness" Value="0" />
-        <Setter Property="BackgroundColor" Value="{StaticResource WhistleblowerSurface}" />
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource WhistleblowerSurface}, Dark={StaticResource DarkWhistleblowerSurface}}" />
+        <Setter Property="Padding" Value="{StaticResource Spacing16}" />
+        <Setter Property="Shadow"
+                Value="{AppThemeBinding Light={StaticResource Elevation1}, Dark={StaticResource DarkElevation1}}" />
         <Setter Property="StrokeShape">
             <Setter.Value>
                 <RoundRectangle CornerRadius="12" />
@@ -96,14 +238,14 @@
         </Setter>
     </Style>
 
-    <!-- Section spacing. Vertical stack used at the top of a screen. -->
+    <!-- Section spacing helpers. Pages compose these to keep rhythm. -->
     <Style x:Key="PageVerticalStack" TargetType="VerticalStackLayout">
-        <Setter Property="Spacing" Value="16" />
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="Spacing" Value="{StaticResource Spacing16}" />
+        <Setter Property="Padding" Value="{StaticResource Spacing16}" />
     </Style>
 
     <Style x:Key="SectionVerticalStack" TargetType="VerticalStackLayout">
-        <Setter Property="Spacing" Value="12" />
+        <Setter Property="Spacing" Value="{StaticResource Spacing12}" />
     </Style>
 
     <!-- Implicit ScrollView (no extra padding; pages handle their own). -->
