@@ -62,20 +62,23 @@ internal static class MockData
                 KpiStatus.Warning,
                 Unit: "%",
                 Trend: KpiTrend.Down,
-                Helper: "vs. trimestre anterior"),
+                Helper: "vs. trimestre anterior",
+                Progress: 0.42),
             new("kpi-cobertura",
                 "Cobertura empresas",
                 "68,4",
                 KpiStatus.Ok,
                 Unit: "%",
                 Trend: KpiTrend.Up,
-                Helper: "meta anual 70%"),
+                Helper: "meta anual 70%",
+                Progress: 0.684),
             new("kpi-satisfaccion",
                 "Satisfacción usuaria",
                 "4,3",
                 KpiStatus.Ok,
                 Unit: "/ 5",
-                Trend: KpiTrend.Flat)
+                Trend: KpiTrend.Flat,
+                Progress: 0.86)
         },
         UserRole.Comite => new DashboardKpi[]
         {
@@ -84,7 +87,8 @@ internal static class MockData
                 "12 / 18",
                 KpiStatus.Warning,
                 Trend: KpiTrend.Up,
-                Helper: "período en curso"),
+                Helper: "período en curso",
+                Progress: 0.667),
             new("kpi-riesgos-criticos",
                 "Riesgos críticos abiertos",
                 "3",
@@ -95,7 +99,8 @@ internal static class MockData
                 "97,1",
                 KpiStatus.Ok,
                 Unit: "%",
-                Trend: KpiTrend.Up)
+                Trend: KpiTrend.Up,
+                Progress: 0.971)
         },
         UserRole.AltaGerencia => new DashboardKpi[]
         {
@@ -118,7 +123,8 @@ internal static class MockData
                 KpiStatus.Warning,
                 Unit: "%",
                 Trend: KpiTrend.Up,
-                Helper: "vs. mismo trimestre"),
+                Helper: "vs. mismo trimestre",
+                Progress: 0.68),
             new("kpi-tickets",
                 "Tickets críticos abiertos",
                 "4",

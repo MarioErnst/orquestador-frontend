@@ -22,4 +22,6 @@ public sealed record DashboardKpi(
     KpiStatus Status,
     string? Unit = null,
     KpiTrend? Trend = null,
-    string? Helper = null);
+    string? Helper = null,
+    // 0.0–1.0 progress toward target; null = no progress bar shown.
+    double? Progress = null);
