@@ -30,6 +30,7 @@ public sealed partial class HomeViewModel : ObservableObject
     [ObservableProperty] private BiBoard? _featuredBoard;
     [ObservableProperty] private bool _hasWhistleblowerAccess;
     [ObservableProperty] private string _greeting = string.Empty;
+    [ObservableProperty] private string _greetingIcon = "\ue430"; // wb_sunny by default
 
     public HomeViewModel(
         ISessionService session,
@@ -54,6 +55,7 @@ public sealed partial class HomeViewModel : ObservableObject
     {
         var role = _session.CurrentRole ?? UserRole.Director;
         Greeting = BuildGreeting(role);
+        GreetingIcon = BuildGreetingIcon();
         HasWhistleblowerAccess = _whistleblower.HasAccess(role);
 
         KpisState = new Loading<IReadOnlyList<DashboardKpi>>();
@@ -149,11 +151,47 @@ public sealed partial class HomeViewModel : ObservableObject
         await Shell.Current.GoToAsync("//main/notifications");
     }
 
-    private static string BuildGreeting(UserRole role) => role switch
+    // Builds the greeting line for the dashboard hero. Two parts:
+    // - Time of day in Chilean Spanish (Buenos días / Buenas tardes /
+    //   Buenas noches) anchored on the device clock.
+    // - Role suffix so the user feels addressed by their function
+    //   (Director, Comité, Alta Gerencia).
+    private static string BuildGreeting(UserRole role)
     {
-        UserRole.Director => "Hola, Director",
-        UserRole.Comite => "Hola, Comité",
-        UserRole.AltaGerencia => "Hola, Alta Gerencia",
-        _ => "Hola"
-    };
+        var hour = DateTime.Now.Hour;
+        var timeOfDay = hour switch
+        {
+            >= 5 and < 13 => "Buenos días",
+            >= 13 and < 20 => "Buenas tardes",
+            _ => "Buenas noches",
+        };
+
+        var roleSuffix = role switch
+        {
+            UserRole.Director => "Director",
+            UserRole.Comite => "miembro del Comité",
+            UserRole.AltaGerencia => "Alta Gerencia",
+            _ => string.Empty,
+        };
+
+        return string.IsNullOrEmpty(roleSuffix)
+            ? timeOfDay
+            : $"{timeOfDay}, {roleSuffix}";
+    }
+
+    // Material Icons glyph that matches the time of day so the hero icon
+    // reads as a contextual cue, not as a generic clock.
+    //   wb_sunny     (e430): daytime
+    //   wb_twilight  (e1c6): late afternoon / evening
+    //   nights_stay  (ea46): night
+    private static string BuildGreetingIcon()
+    {
+        var hour = DateTime.Now.Hour;
+        return hour switch
+        {
+            >= 5 and < 13 => "\ue430",
+            >= 13 and < 20 => "\ue1c6",
+            _ => "\uea46",
+        };
+    }
 }

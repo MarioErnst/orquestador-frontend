@@ -5,7 +5,9 @@ namespace OrquestadorFrontend.Shared.Controls;
 // title / subtitle hierarchy mandated by Propuesta 2 section 8.
 //
 // The optional Trailing slot is for inline actions such as "Ver todo" or
-// "Configurar".
+// "Configurar". An optional Icon slot takes a Material Icons codepoint so
+// each section can carry a small brand-tinted glyph that previews its
+// purpose at a glance.
 public partial class SectionHeader : ContentView
 {
     public static readonly BindableProperty TitleProperty = BindableProperty.Create(
@@ -23,6 +25,15 @@ public partial class SectionHeader : ContentView
 
     public static readonly BindableProperty HasSubtitleProperty = BindableProperty.Create(
         nameof(HasSubtitle), typeof(bool), typeof(SectionHeader),
+        defaultValue: false);
+
+    public static readonly BindableProperty IconProperty = BindableProperty.Create(
+        nameof(Icon), typeof(string), typeof(SectionHeader),
+        defaultValue: string.Empty,
+        propertyChanged: OnIconChanged);
+
+    public static readonly BindableProperty HasIconProperty = BindableProperty.Create(
+        nameof(HasIcon), typeof(bool), typeof(SectionHeader),
         defaultValue: false);
 
     public string Title
@@ -45,6 +56,14 @@ public partial class SectionHeader : ContentView
 
     public bool HasSubtitle => (bool)GetValue(HasSubtitleProperty);
 
+    public string Icon
+    {
+        get => (string)GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+
+    public bool HasIcon => (bool)GetValue(HasIconProperty);
+
     public SectionHeader()
     {
         InitializeComponent();
@@ -54,5 +73,11 @@ public partial class SectionHeader : ContentView
     {
         var header = (SectionHeader)bindable;
         header.SetValue(HasSubtitleProperty, !string.IsNullOrEmpty(newValue as string));
+    }
+
+    private static void OnIconChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var header = (SectionHeader)bindable;
+        header.SetValue(HasIconProperty, !string.IsNullOrEmpty(newValue as string));
     }
 }

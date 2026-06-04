@@ -4,17 +4,39 @@
              x:Class="OrquestadorFrontend.Shared.Controls.SectionHeader"
              x:Name="Root">
 
-    <Grid Padding="0,4" ColumnDefinitions="*,Auto" ColumnSpacing="12">
-        <VerticalStackLayout Grid.Column="0" Spacing="2">
+    <Grid Padding="0,4" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+
+        <!-- Optional leading icon: a Material Icons glyph framed in a small
+             brand-tinted square. Visible only when the consumer sets Icon
+             to a non-empty codepoint. -->
+        <Border Grid.Column="0"
+                WidthRequest="28"
+                HeightRequest="28"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
+                VerticalOptions="Center"
+                IsVisible="{Binding HasIcon, Source={x:Reference Root}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+            <Label Text="{Binding Icon, Source={x:Reference Root}}"
+                   FontFamily="MaterialIcons"
+                   FontSize="16"
+                   TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+        </Border>
+
+        <VerticalStackLayout Grid.Column="1" Spacing="2">
             <Label Text="{Binding Title, Source={x:Reference Root}}"
                    Style="{StaticResource TitleMedium}" />
             <Label Text="{Binding Subtitle, Source={x:Reference Root}}"
                    Style="{StaticResource BodySmall}"
-                   TextColor="{StaticResource OnSurfaceVariant}"
+                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    IsVisible="{Binding HasSubtitle, Source={x:Reference Root}}" />
         </VerticalStackLayout>
 
-        <ContentView Grid.Column="1"
+        <ContentView Grid.Column="2"
                      Content="{Binding Trailing, Source={x:Reference Root}}"
                      VerticalOptions="Center" />
     </Grid>

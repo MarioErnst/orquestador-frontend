@@ -50,18 +50,18 @@
                                Opacity="0.78" />
                     </VerticalStackLayout>
                     <Label Grid.Column="1"
-                           Text="&#xe8b5;"
+                           Text="{Binding GreetingIcon}"
                            FontFamily="MaterialIcons"
                            FontSize="40"
                            TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}"
-                           Opacity="0.6"
+                           Opacity="0.7"
                            VerticalOptions="Center" />
                 </Grid>
             </Border>
 
             <!-- Indicadores clave -->
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
-                <shared:SectionHeader Title="Indicadores clave" />
+                <shared:SectionHeader Title="Indicadores clave" Icon="&#xf092;" />
 
                 <shared:LoadingState IsVisible="{Binding KpisState, Converter={StaticResource IsLoadingConverter}}" />
                 <shared:ErrorState   IsVisible="{Binding KpisState, Converter={StaticResource IsFailureConverter}}"
