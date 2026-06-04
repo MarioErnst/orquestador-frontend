@@ -23,50 +23,54 @@
                              Title="Sin documentos disponibles"
                              Message="Cuando se publiquen informes para tu rol, aparecerán acá." />
 
-        <CollectionView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}"
-                        ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
-                        SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Report">
-                    <Border Style="{StaticResource CardBorder}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DocumentsListViewModel}}, Path=OpenDocumentCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                        <Border.Behaviors>
-                            <toolkit:TouchBehavior DefaultAnimationDuration="120"
-                                                   PressedScale="0.97"
-                                                   PressedOpacity="0.9" />
-                        </Border.Behaviors>
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-                            <VerticalStackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{Binding Title}"
-                                       Style="{StaticResource TitleMedium}" />
-                                <Label Text="{Binding Description}"
-                                       Style="{StaticResource BodySmall}"
-                                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
-                            </VerticalStackLayout>
-                            <Border Grid.Column="1"
-                                    Stroke="Transparent"
-                                    BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
-                                    Padding="10,4"
-                                    VerticalOptions="Start">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="999" />
-                                </Border.StrokeShape>
-                                <Label Text="{Binding Kind, Converter={StaticResource ReportKindLabelConverter}}"
-                                       Style="{StaticResource LabelSmall}"
-                                       TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}" />
-                            </Border>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}"
+                     RefreshColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}"
+                     IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <CollectionView ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Report">
+                        <Border Style="{StaticResource CardBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DocumentsListViewModel}}, Path=OpenDocumentCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                                       PressedScale="0.97"
+                                                       PressedOpacity="0.9" />
+                            </Border.Behaviors>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="{Binding Title}"
+                                           Style="{StaticResource TitleMedium}" />
+                                    <Label Text="{Binding Description}"
+                                           Style="{StaticResource BodySmall}"
+                                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1"
+                                        Stroke="Transparent"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource PrimaryContainer}, Dark={StaticResource DarkPrimaryContainer}}"
+                                        Padding="10,4"
+                                        VerticalOptions="Start">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="999" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Kind, Converter={StaticResource ReportKindLabelConverter}}"
+                                           Style="{StaticResource LabelSmall}"
+                                           TextColor="{AppThemeBinding Light={StaticResource OnPrimaryContainer}, Dark={StaticResource DarkOnPrimaryContainer}}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 
 </ContentPage>

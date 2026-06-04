@@ -23,36 +23,40 @@
                              Title="Sin tableros disponibles"
                              Message="Tu rol actual aún no tiene tableros publicados." />
 
-        <CollectionView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}"
-                        ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
-                        SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:BiBoard">
-                    <Border Style="{StaticResource CardBorder}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReportsListViewModel}}, Path=OpenBoardCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                        <Border.Behaviors>
-                            <toolkit:TouchBehavior DefaultAnimationDuration="120"
-                                                   PressedScale="0.97"
-                                                   PressedOpacity="0.9" />
-                        </Border.Behaviors>
-                        <VerticalStackLayout Spacing="6">
-                            <Label Text="{Binding Name}"
-                                   Style="{StaticResource TitleMedium}" />
-                            <Label Text="{Binding Description}"
-                                   Style="{StaticResource BodySmall}"
-                                   TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
-                        </VerticalStackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}"
+                     RefreshColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}"
+                     IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <CollectionView ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:BiBoard">
+                        <Border Style="{StaticResource CardBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReportsListViewModel}}, Path=OpenBoardCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                                       PressedScale="0.97"
+                                                       PressedOpacity="0.9" />
+                            </Border.Behaviors>
+                            <VerticalStackLayout Spacing="6">
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource TitleMedium}" />
+                                <Label Text="{Binding Description}"
+                                       Style="{StaticResource BodySmall}"
+                                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 
 </ContentPage>

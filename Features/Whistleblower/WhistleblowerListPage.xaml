@@ -11,6 +11,9 @@
              Shell.TabBarIsVisible="False"
              BackgroundColor="{AppThemeBinding Light={StaticResource WhistleblowerSurface}, Dark={StaticResource DarkWhistleblowerSurface}}">
 
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}"
+                 RefreshColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="16">
 
@@ -73,5 +76,6 @@
 
         </VerticalStackLayout>
     </ScrollView>
+    </RefreshView>
 
 </ContentPage>

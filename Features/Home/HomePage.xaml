@@ -15,6 +15,9 @@
     </Shell.TitleView>
 
 
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}"
+                 RefreshColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}">
     <ScrollView>
         <VerticalStackLayout Padding="{StaticResource Spacing16}"
                              Spacing="{StaticResource Spacing24}">
@@ -200,5 +203,6 @@
 
         </VerticalStackLayout>
     </ScrollView>
+    </RefreshView>
 
 </ContentPage>

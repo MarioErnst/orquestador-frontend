@@ -27,44 +27,48 @@
                              Title="No hay notificaciones"
                              Message="Cuando llegue algo, lo verás acá." />
 
-        <CollectionView IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}"
-                        ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
-                        SelectionMode="None">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:NotificationItem">
-                    <Border Style="{StaticResource CardBorder}">
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=OpenCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Border.GestureRecognizers>
-                        <Border.Behaviors>
-                            <toolkit:TouchBehavior DefaultAnimationDuration="120"
-                                                   PressedScale="0.97"
-                                                   PressedOpacity="0.9" />
-                        </Border.Behaviors>
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                            <VerticalStackLayout Grid.Column="0" Spacing="4">
-                                <Label Text="{Binding Title}"
-                                       Style="{StaticResource TitleSmall}" />
-                                <Label Text="{Binding Body}"
-                                       Style="{StaticResource BodySmall}"
-                                       TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
-                            </VerticalStackLayout>
-                            <Ellipse Grid.Column="1"
-                                     WidthRequest="10"
-                                     HeightRequest="10"
-                                     Fill="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}"
-                                     VerticalOptions="Start"
-                                     IsVisible="{Binding Read, Converter={StaticResource InverseBoolConverter}}" />
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}"
+                     RefreshColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}"
+                     IsVisible="{Binding State, Converter={StaticResource IsDataConverter}}">
+            <CollectionView ItemsSource="{Binding State, Converter={StaticResource DataValueConverter}}"
+                            SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="8" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:NotificationItem">
+                        <Border Style="{StaticResource CardBorder}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=OpenCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.Behaviors>
+                                <toolkit:TouchBehavior DefaultAnimationDuration="120"
+                                                       PressedScale="0.97"
+                                                       PressedOpacity="0.9" />
+                            </Border.Behaviors>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <Label Text="{Binding Title}"
+                                           Style="{StaticResource TitleSmall}" />
+                                    <Label Text="{Binding Body}"
+                                           Style="{StaticResource BodySmall}"
+                                           TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
+                                </VerticalStackLayout>
+                                <Ellipse Grid.Column="1"
+                                         WidthRequest="10"
+                                         HeightRequest="10"
+                                         Fill="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource DarkPrimary}}"
+                                         VerticalOptions="Start"
+                                         IsVisible="{Binding Read, Converter={StaticResource InverseBoolConverter}}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 
 </ContentPage>
