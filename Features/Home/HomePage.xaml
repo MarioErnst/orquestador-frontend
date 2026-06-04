@@ -85,7 +85,7 @@
 
             <!-- Accesos rápidos -->
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
-                <shared:SectionHeader Title="Accesos rápidos" />
+                <shared:SectionHeader Title="Accesos rápidos" Icon="&#xea0b;" />
 
                 <Border Style="{StaticResource CardBorder}"
                         IsVisible="{Binding LatestReport, Converter={StaticResource IsNotNullConverter}}">
@@ -157,7 +157,7 @@
 
             <!-- Alertas recientes -->
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
-                <shared:SectionHeader Title="Alertas recientes" />
+                <shared:SectionHeader Title="Alertas recientes" Icon="&#xe7f4;" />
 
                 <shared:LoadingState IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsLoadingConverter}}" />
                 <shared:EmptyState   IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsEmptyConverter}}"
