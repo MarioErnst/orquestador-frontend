@@ -25,13 +25,13 @@ public partial class ProfilePage : ContentPage
         HeroSection.TranslationY = 12;
         CardsSection.TranslationY = 16;
 
-        var heroFade = HeroSection.FadeTo(1, 300, Easing.CubicOut);
-        var heroSlide = HeroSection.TranslateTo(0, 0, 300, Easing.CubicOut);
+        var heroFade = HeroSection.FadeToAsync(1, 300, Easing.CubicOut);
+        var heroSlide = HeroSection.TranslateToAsync(0, 0, 300, Easing.CubicOut);
 
         Task.Delay(80).ContinueWith(_ => MainThread.BeginInvokeOnMainThread(() =>
         {
-            var cardsFade = CardsSection.FadeTo(1, 280, Easing.CubicOut);
-            var cardsSlide = CardsSection.TranslateTo(0, 0, 280, Easing.CubicOut);
+            _ = CardsSection.FadeToAsync(1, 280, Easing.CubicOut);
+            _ = CardsSection.TranslateToAsync(0, 0, 280, Easing.CubicOut);
         }));
 
         _ = Task.WhenAll(heroFade, heroSlide);

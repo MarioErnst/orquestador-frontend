@@ -15,7 +15,7 @@ public partial class ReportsListPage : ContentPage
     {
         base.OnAppearing();
         Opacity = 0;
-        _ = this.FadeTo(1, 280, Easing.CubicOut);
+        _ = this.FadeToAsync(1, 280, Easing.CubicOut);
         await _vm.LoadCommand.ExecuteAsync(null);
     }
 }
