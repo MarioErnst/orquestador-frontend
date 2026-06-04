@@ -41,6 +41,31 @@ public sealed partial class DocumentsListViewModel : ObservableObject
         }
     }
 
+    [ObservableProperty]
+    private bool _isRefreshing;
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var role = _session.CurrentRole ?? UserRole.Director;
+            var reports = await _reports.GetReportsAsync(role);
+            State = reports.Count == 0
+                ? new Empty<IReadOnlyList<Report>>()
+                : new Data<IReadOnlyList<Report>>(reports);
+        }
+        catch (Exception)
+        {
+            // Silent: existing data stays visible, spinner stops.
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
+
     [RelayCommand]
     private async Task OpenDocumentAsync(Report report)
     {

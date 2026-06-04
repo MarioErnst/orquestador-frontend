@@ -41,6 +41,32 @@ public sealed partial class ReportsListViewModel : ObservableObject
         }
     }
 
+    [ObservableProperty]
+    private bool _isRefreshing;
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var role = _session.CurrentRole ?? UserRole.Director;
+            var boards = await _boards.GetBoardsAsync(role);
+            State = boards.Count == 0
+                ? new Empty<IReadOnlyList<BiBoard>>()
+                : new Data<IReadOnlyList<BiBoard>>(boards);
+        }
+        catch (Exception)
+        {
+            // Silent: existing data stays visible, spinner stops.
+            // Full error path is shown only on initial Load.
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
+
     [RelayCommand]
     private async Task OpenBoardAsync(BiBoard board)
     {

@@ -26,6 +26,7 @@ public sealed partial class HomeViewModel : ObservableObject
     private ResultState<IReadOnlyList<NotificationItem>> _recentAlertsState =
         new Loading<IReadOnlyList<NotificationItem>>();
 
+    [ObservableProperty] private bool _isRefreshing;
     [ObservableProperty] private Report? _latestReport;
     [ObservableProperty] private BiBoard? _featuredBoard;
     [ObservableProperty] private bool _hasWhistleblowerAccess;
@@ -106,6 +107,55 @@ public sealed partial class HomeViewModel : ObservableObject
         {
             RecentAlertsState = new Failure<IReadOnlyList<NotificationItem>>(
                 "No pudimos cargar las alertas recientes.");
+        }
+    }
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var role = _session.CurrentRole ?? UserRole.Director;
+            Greeting = BuildGreeting(role);
+            GreetingIcon = BuildGreetingIcon();
+
+            try
+            {
+                var kpis = await _dashboard.GetKpisAsync(role);
+                KpisState = kpis.Count == 0
+                    ? new Empty<IReadOnlyList<DashboardKpi>>()
+                    : new Data<IReadOnlyList<DashboardKpi>>(kpis);
+            }
+            catch (Exception) { /* keep current data */ }
+
+            try
+            {
+                var reports = await _reports.GetReportsAsync(role);
+                LatestReport = reports.OrderByDescending(r => r.PublishedAt).FirstOrDefault();
+            }
+            catch (Exception) { /* keep current data */ }
+
+            try
+            {
+                var boards = await _boards.GetBoardsAsync(role);
+                FeaturedBoard = boards.FirstOrDefault();
+            }
+            catch (Exception) { /* keep current data */ }
+
+            try
+            {
+                var notifications = await _notifications.GetNotificationsAsync(role);
+                var recent = notifications.OrderByDescending(n => n.ReceivedAt).Take(3).ToList();
+                RecentAlertsState = recent.Count == 0
+                    ? new Empty<IReadOnlyList<NotificationItem>>()
+                    : new Data<IReadOnlyList<NotificationItem>>(recent);
+            }
+            catch (Exception) { /* keep current data */ }
+        }
+        finally
+        {
+            IsRefreshing = false;
         }
     }
 

@@ -47,6 +47,32 @@ public sealed partial class NotificationsViewModel : ObservableObject
         }
     }
 
+    [ObservableProperty]
+    private bool _isRefreshing;
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var role = _session.CurrentRole ?? UserRole.Director;
+            var list = await _notifications.GetNotificationsAsync(role);
+            var ordered = list.OrderByDescending(n => n.ReceivedAt).ToList();
+            State = ordered.Count == 0
+                ? new Empty<IReadOnlyList<NotificationItem>>()
+                : new Data<IReadOnlyList<NotificationItem>>(ordered);
+        }
+        catch (Exception)
+        {
+            // Silent: existing data stays visible, spinner stops.
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
+
     [RelayCommand]
     private async Task OpenAsync(NotificationItem item)
     {

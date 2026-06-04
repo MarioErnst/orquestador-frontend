@@ -51,6 +51,37 @@ public sealed partial class WhistleblowerListViewModel : ObservableObject
         }
     }
 
+    [ObservableProperty]
+    private bool _isRefreshing;
+
+    [RelayCommand]
+    private async Task RefreshAsync()
+    {
+        IsRefreshing = true;
+        try
+        {
+            var role = _session.CurrentRole ?? UserRole.Director;
+            var cases = await _whistleblower.GetCasesAsync(role);
+            State = cases.Count == 0
+                ? new Empty<IReadOnlyList<WhistleblowerCase>>()
+                : new Data<IReadOnlyList<WhistleblowerCase>>(cases);
+        }
+        catch (WhistleblowerAccessDeniedException)
+        {
+            // If access is denied mid-session, close immediately rather than
+            // showing stale data or an error that reveals the module exists.
+            await Shell.Current.GoToAsync("..");
+        }
+        catch (Exception)
+        {
+            // Silent: existing data stays visible, spinner stops.
+        }
+        finally
+        {
+            IsRefreshing = false;
+        }
+    }
+
     [RelayCommand]
     private async Task OpenCaseAsync(WhistleblowerCase item)
     {
