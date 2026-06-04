@@ -22,6 +22,8 @@ public partial class ProfilePage : ContentPage
     // Both start at Opacity=0 (set in XAML) so nothing flashes on navigate-in.
     private void AnimateIn()
     {
+        HeroSection.Opacity = 0;
+        CardsSection.Opacity = 0;
         HeroSection.TranslationY = 12;
         CardsSection.TranslationY = 16;
 
