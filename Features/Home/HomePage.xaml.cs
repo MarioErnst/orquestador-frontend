@@ -14,8 +14,10 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        // Re-fetch on every appearance so the home dashboard reflects the
-        // latest mock state (e.g. after a notification was marked as read).
+        Opacity = 0;
+        _ = this.FadeTo(1, 280, Easing.CubicOut);
+        // Re-fetch on every appearance so the dashboard reflects the latest
+        // state (e.g. after a notification was marked as read elsewhere).
         await _vm.LoadCommand.ExecuteAsync(null);
     }
 }
