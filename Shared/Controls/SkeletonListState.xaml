@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OrquestadorFrontend.Shared.Controls.SkeletonListState"
+             x:Name="Root">
+
+    <!--
+        Three placeholder cards that mimic the shape of real list items.
+        The ContentView opacity pulses between 0.35 and 1.0 (sinusoidal,
+        ~900 ms) to produce a shimmer effect without any third-party
+        skeleton library.
+    -->
+    <VerticalStackLayout Spacing="12">
+
+        <Border Padding="16"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource DarkSurfaceVariant}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <BoxView HeightRequest="16"
+                         WidthRequest="200"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="280"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="180"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource DarkSurfaceVariant}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <BoxView HeightRequest="16"
+                         WidthRequest="240"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="300"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="160"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Padding="16"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource SurfaceVariant}, Dark={StaticResource DarkSurfaceVariant}}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="10">
+                <BoxView HeightRequest="16"
+                         WidthRequest="180"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="260"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+                <BoxView HeightRequest="12"
+                         WidthRequest="140"
+                         HorizontalOptions="Start"
+                         CornerRadius="4"
+                         Color="{AppThemeBinding Light={StaticResource OutlineVariant}, Dark={StaticResource DarkOutlineVariant}}" />
+            </VerticalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+
+</ContentView>

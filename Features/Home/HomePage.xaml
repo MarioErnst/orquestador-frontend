@@ -66,7 +66,7 @@
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
                 <shared:SectionHeader Title="Indicadores clave" Icon="&#xf092;" />
 
-                <shared:LoadingState IsVisible="{Binding KpisState, Converter={StaticResource IsLoadingConverter}}" />
+                <shared:SkeletonListState IsVisible="{Binding KpisState, Converter={StaticResource IsLoadingConverter}}" />
                 <shared:ErrorState   IsVisible="{Binding KpisState, Converter={StaticResource IsFailureConverter}}"
                                      Message="{Binding KpisState, Converter={StaticResource FailureMessageConverter}}"
                                      RetryCommand="{Binding LoadCommand}" />
@@ -162,7 +162,7 @@
             <VerticalStackLayout Spacing="{StaticResource Spacing12}">
                 <shared:SectionHeader Title="Alertas recientes" Icon="&#xe7f4;" />
 
-                <shared:LoadingState IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsLoadingConverter}}" />
+                <shared:SkeletonListState IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsLoadingConverter}}" />
                 <shared:EmptyState   IsVisible="{Binding RecentAlertsState, Converter={StaticResource IsEmptyConverter}}"
                                      Title="No hay alertas nuevas"
                                      Message="Te avisaremos cuando llegue algo relevante." />

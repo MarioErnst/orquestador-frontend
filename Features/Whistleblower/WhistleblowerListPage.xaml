@@ -28,7 +28,7 @@
                        TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}" />
             </VerticalStackLayout>
 
-            <shared:LoadingState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
+            <shared:SkeletonListState IsVisible="{Binding State, Converter={StaticResource IsLoadingConverter}}" />
             <shared:ErrorState   IsVisible="{Binding State, Converter={StaticResource IsFailureConverter}}"
                                  Message="{Binding State, Converter={StaticResource FailureMessageConverter}}"
                                  RetryCommand="{Binding LoadCommand}" />
