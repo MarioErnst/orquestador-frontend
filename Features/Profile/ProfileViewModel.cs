@@ -22,6 +22,7 @@ public sealed partial class ProfileViewModel : ObservableObject
 
     [ObservableProperty] private UserProfile? _profileData;
     [ObservableProperty] private string _roleLabel = string.Empty;
+    [ObservableProperty] private string _initials = string.Empty;
 
     [ObservableProperty] private bool _isAppearanceSystem;
     [ObservableProperty] private bool _isAppearanceLight;
@@ -50,6 +51,7 @@ public sealed partial class ProfileViewModel : ObservableObject
             var data = await _profile.GetProfileAsync(role);
             ProfileData = data;
             RoleLabel = RoleLabelFor(data.Role);
+            Initials = InitialsFor(data.FullName);
             State = new Data<UserProfile>(data);
         }
         catch (Exception)
@@ -123,4 +125,12 @@ public sealed partial class ProfileViewModel : ObservableObject
         UserRole.AltaGerencia => "Alta Gerencia",
         _ => string.Empty
     };
+
+    private static string InitialsFor(string fullName)
+    {
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 0) return "?";
+        if (parts.Length == 1) return parts[0][..1].ToUpperInvariant();
+        return $"{parts[0][0]}{parts[^1][0]}".ToUpperInvariant();
+    }
 }
