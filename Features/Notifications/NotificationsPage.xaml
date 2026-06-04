@@ -7,7 +7,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrquestadorFrontend.Features.Notifications.NotificationsPage"
              x:DataType="vm:NotificationsViewModel"
-             Title="Notificaciones">
+             Title="Notificaciones"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}">
 
     <Shell.TitleView>
         <shared:AppBarTitle Title="Notificaciones" />

@@ -6,7 +6,8 @@
              x:Class="OrquestadorFrontend.Features.Profile.ProfilePage"
              x:DataType="vm:ProfileViewModel"
              Title="Perfil"
-             Shell.TabBarIsVisible="False">
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}">
 
     <Shell.TitleView>
         <shared:AppBarTitle Title="Mi perfil" />

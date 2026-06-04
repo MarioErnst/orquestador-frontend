@@ -7,7 +7,8 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrquestadorFrontend.Features.Reports.ReportsListPage"
              x:DataType="vm:ReportsListViewModel"
-             Title="Reportes">
+             Title="Reportes"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}">
 
     <Shell.TitleView>
         <shared:AppBarTitle Title="Reportes" />

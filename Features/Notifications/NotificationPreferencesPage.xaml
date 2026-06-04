@@ -6,7 +6,8 @@
              x:Class="OrquestadorFrontend.Features.Notifications.NotificationPreferencesPage"
              x:DataType="vm:NotificationPreferencesViewModel"
              Title="Preferencias"
-             Shell.TabBarIsVisible="False">
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Background}, Dark={StaticResource DarkBackground}}">
 
     <Grid Padding="16">
         <shared:LoadingState IsVisible="{Binding IsLoading}" />
