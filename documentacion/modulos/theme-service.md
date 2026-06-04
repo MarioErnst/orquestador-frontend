@@ -74,13 +74,76 @@ Application.Current.UserAppTheme = mode switch
 ```
 
 `AppTheme.Unspecified` deja que MAUI siga la preferencia del SO en
-tiempo real. Las propiedades de color en los estilos están bindadas via
-`AppThemeBinding`, así que el cambio se propaga automáticamente al
-siguiente frame sin necesidad de re-crear las vistas.
-
-La aplicación ocurre en el hilo principal usando
+tiempo real. La aplicación ocurre en el hilo principal usando
 `MainThread.BeginInvokeOnMainThread`, porque `UserAppTheme` no es
 thread-safe.
+
+## Workarounds para bugs de `AppThemeBinding` en MAUI 10
+
+`AppThemeBinding` *debería* propagarse automáticamente cuando cambia
+`UserAppTheme`, pero hay una familia de bugs abiertos en `dotnet/maui`
+(#6596, #20243 y relacionados) por los cuales ciertas propiedades
+quedan congeladas en el tema anterior hasta que se reinicia la app o se
+re-crea la vista. El servicio compensa esto con cuatro pasadas
+adicionales después de setear `UserAppTheme`, todas dentro de
+`ForceShellChromeRefresh`:
+
+1. **Chrome del Shell.** Se reasignan imperativamente
+   `Shell.BackgroundColor`, `ForegroundColor`, `TitleColor` y los
+   colores del `TabBar` leyendo los `Color` resueltos desde
+   `Application.Resources`.
+2. **Background de `ContentPage`.** Para cada `ContentPage`
+   materializada (visible, en navigation stack, en modal stack o en una
+   tab no activa), se reasigna `BackgroundColor` con el `Color` del
+   tema actual. Las páginas del Canal de Denuncias usan
+   `WhistleblowerSurface` para conservar su superficie cálida.
+3. **Items de `CollectionView`.** RecyclerView no propaga el evento
+   `RequestedThemeChanged` a `ViewHolder`s desacoplados. Se setea
+   `ItemsSource = null; ItemsSource = src;` para forzar recreación de
+   los items desde el `DataTemplate`, evaluando el `AppThemeBinding`
+   nuevo.
+4. **Setters de `Style` con `AppThemeBinding`.** Cuando un Setter
+   define un color con `AppThemeBinding`, el valor se cachea en la
+   primera aplicación del Style y no se refresca al cambiar tema —
+   éste era el síntoma reportado en las tarjetas de Accesos rápidos
+   ("Último informe publicado" y "Tablero habitual" se quedaban con el
+   color del tema anterior). El helper `StyleAppThemeRefresher` recorre
+   el árbol visual de cada página, lee `Style.Setters` (incluyendo
+   `BasedOn`), y para cada Setter cuyo `Value` es un `AppThemeBinding`
+   primero invoca `RemoveBinding(property)` para matar el binding
+   roto y después `SetValue(property, color)` con el `Color` resuelto
+   del slot `Light` / `Dark`. Sin el `RemoveBinding` el binding roto
+   re-dispara en el mismo dispatch cycle y pisa el valor local con
+   el color del tema anterior. Es genérico: cualquier `Style` nuevo
+   del proyecto queda cubierto sin tocar este servicio.
+
+El servicio dispara las cuatro pasadas dos veces: una síncronamente al
+cambio de modo y otra deferida con `MainThread.BeginInvokeOnMainThread`
+para ganar a cualquier propagación tardía de `AppThemeBinding` que
+podría intentar pisar los valores imperativos.
+
+## Refresh de tabs lazy en `Shell.Navigated`
+
+Las tabs de `AppShell.xaml` están definidas con
+`ContentTemplate="{DataTemplate ...}"`, así que sus páginas son lazy:
+sólo se materializan la primera vez que se entra a la tab y a partir
+de ahí viven en un cache interno de `ShellContent` que **no** está
+expuesto vía `ShellContent.Content` ni vía el árbol visual del Shell
+mientras la tab no es la actual. Esto significa que cuando el usuario
+toggle Apariencia desde la pantalla de Perfil (que está en el stack
+modal sobre la tab activa) ni desde otra tab, las cuatro pasadas de
+arriba sólo alcanzan a la página visible — el resto de las tabs
+materializadas conservan los `AppThemeBinding` cacheados del tema
+anterior y se ven con el color viejo apenas el usuario navega de
+vuelta.
+
+Para cerrar ese gap, `ThemeService` se suscribe una vez a
+`Shell.Navigated` (con `EnsureShellNavigationHooked`, idempotente).
+Cada vez que una página se vuelve visible, dispara
+`StyleAppThemeRefresher.Refresh` sobre ella en el siguiente cycle del
+dispatcher. La navegación ya garantiza que la página está
+materializada y en el árbol visual, así que el walker la encuentra y
+reaplica los colores del tema actual.
 
 ## Análisis de seguridad
 

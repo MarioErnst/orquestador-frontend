@@ -22,6 +22,7 @@ internal sealed class ThemeService : IThemeService
     private const string PreferenceKey = "appearance-mode";
 
     private AppearanceMode _currentMode = AppearanceMode.System;
+    private bool _shellNavigationHooked;
 
     public AppearanceMode CurrentMode => _currentMode;
 
@@ -32,6 +33,56 @@ internal sealed class ThemeService : IThemeService
         var persisted = await ReadPersistedAsync().ConfigureAwait(false);
         ApplyOnMainThread(persisted);
         SubscribeToSystemThemeChanges();
+    }
+
+    // Lazy ShellContent.ContentTemplate (used for every tab in AppShell)
+    // keeps tab pages out of the visual tree and out of
+    // ShellContent.Content while their tab is not active, so they cannot
+    // be reached from ForceShellChromeRefresh when the user toggles the
+    // theme from another tab. The Setters of those non-current pages
+    // still cache the original theme's colours and the cards/labels
+    // would stay frozen until the page is rebuilt.
+    //
+    // The fix is to refresh the Style Setters of whichever page becomes
+    // current after a Shell navigation event: the lazy page is now
+    // materialised and visible, so the walker can re-apply the resolved
+    // colours for the current theme.
+    private void EnsureShellNavigationHooked()
+    {
+        if (_shellNavigationHooked)
+        {
+            return;
+        }
+
+        var shell = Shell.Current;
+        if (shell is null)
+        {
+            return;
+        }
+
+        shell.Navigated -= OnShellNavigated;
+        shell.Navigated += OnShellNavigated;
+        _shellNavigationHooked = true;
+    }
+
+    private void OnShellNavigated(object? sender, ShellNavigatedEventArgs e)
+    {
+        var app = Application.Current;
+        if (app is null || sender is not Shell shell)
+        {
+            return;
+        }
+
+        // Defer to the next dispatcher cycle so the navigation
+        // transition has time to materialise the destination page
+        // before the walker reads its visual tree.
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (Shell.Current?.CurrentPage is ContentPage page)
+            {
+                StyleAppThemeRefresher.Refresh(page, app.RequestedTheme);
+            }
+        });
     }
 
     // When the mode is System we still need to refresh the status bar
@@ -134,11 +185,32 @@ internal sealed class ThemeService : IThemeService
                 _ => AppTheme.Unspecified,
             };
 
+            // First pass: run synchronously so Shell chrome and page
+            // backgrounds flip as soon as UserAppTheme changes.
             ForceShellChromeRefresh(app);
             ApplyStatusBarFor(app.RequestedTheme);
 
+            // Idempotent: hooks Shell.Navigated once so any lazy tab
+            // page (HomePage, ReportsListPage, etc.) gets its Style
+            // Setters re-evaluated the moment it becomes visible after
+            // a theme toggle.
+            EnsureShellNavigationHooked();
+
             _currentMode = mode;
             ModeChanged?.Invoke(this, mode);
+
+            // Second pass: deferred to the next message-queue cycle.
+            // In .NET MAUI 10, AppThemeBinding updates are dispatched
+            // asynchronously after UserAppTheme changes; the second pass
+            // ensures our programmatic colours win over any binding that
+            // fires late and tries to override them.
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (Application.Current is { } a)
+                {
+                    ForceShellChromeRefresh(a);
+                }
+            });
         });
     }
 
@@ -208,6 +280,58 @@ internal sealed class ThemeService : IThemeService
         if (hasDefaultBg || hasWhistleblowerBg)
         {
             ForceBackgroundOnContentPages(shell, defaultBg, whistleblowerBg, hasDefaultBg, hasWhistleblowerBg);
+        }
+
+        // CollectionView (backed by Android RecyclerView) does not propagate
+        // RequestedThemeChanged to its item views — the recycled ViewHolders
+        // are detached from the window during idle time and miss the event.
+        // Resetting ItemsSource forces RecyclerView to discard all current
+        // views and recreate them from the DataTemplate, which evaluates
+        // AppThemeBindings with the current scheme.
+        ForceCollectionViewsRefresh(shell);
+
+        // Final pass: AppThemeBinding declared inside Style Setters does
+        // not refresh on UserAppTheme changes (dotnet/maui#6596 family).
+        // The generic refresher walks every materialised page and
+        // re-applies the resolved colour for any Setter that uses an
+        // AppThemeBinding, including Setters inherited via BasedOn.
+        // Runs after the CollectionView reset so recreated DataTemplate
+        // instances are covered as well.
+        ForceStyleSettersRefresh(shell, app.RequestedTheme);
+    }
+
+    private static void ForceStyleSettersRefresh(Shell shell, AppTheme currentTheme)
+    {
+        foreach (var page in EnumerateContentPages(shell))
+        {
+            StyleAppThemeRefresher.Refresh(page, currentTheme);
+        }
+    }
+
+    private static void ForceCollectionViewsRefresh(Shell shell)
+    {
+        foreach (var page in EnumerateContentPages(shell))
+        {
+            ResetCollectionViewsInElement(page);
+        }
+    }
+
+    private static void ResetCollectionViewsInElement(IVisualTreeElement element)
+    {
+        if (element is CollectionView cv)
+        {
+            var src = cv.ItemsSource;
+            if (src is not null)
+            {
+                cv.ItemsSource = null;
+                cv.ItemsSource = src;
+            }
+            return;
+        }
+
+        foreach (var child in element.GetVisualChildren())
+        {
+            ResetCollectionViewsInElement(child);
         }
     }
 
