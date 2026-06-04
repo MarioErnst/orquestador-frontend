@@ -85,7 +85,7 @@
             <ShellContent ContentTemplate="{DataTemplate documents:DocumentsListPage}" />
         </Tab>
 
-        <Tab Title="Notificaciones" Route="notifications" Icon="{StaticResource IconNotifications}">
+        <Tab Title="Alertas" Route="notifications" Icon="{StaticResource IconNotifications}">
             <ShellContent ContentTemplate="{DataTemplate notifications:NotificationsPage}" />
         </Tab>
 
