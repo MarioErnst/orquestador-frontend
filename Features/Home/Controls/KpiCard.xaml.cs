@@ -3,9 +3,9 @@ using OrquestadorFrontend.Data.Models;
 namespace OrquestadorFrontend.Features.Home.Controls;
 
 // A KPI tile shown on the home dashboard. Renders the brand-styled card with
-// label, value, unit, status pill and optional helper line. Status colour
-// derives from KpiStatus, not from a free-form palette: a tablet of KPIs
-// stays semantically consistent.
+// label, value, unit, trend arrow, optional progress bar, status pill and
+// optional helper line. Status colour derives from KpiStatus, not from a
+// free-form palette, so a grid of KPIs stays semantically consistent.
 public partial class KpiCard : ContentView
 {
     public static readonly BindableProperty KpiProperty = BindableProperty.Create(
@@ -32,6 +32,21 @@ public partial class KpiCard : ContentView
 
     public static readonly BindableProperty HasHelperProperty = BindableProperty.Create(
         nameof(HasHelper), typeof(bool), typeof(KpiCard), false);
+
+    public static readonly BindableProperty TrendGlyphProperty = BindableProperty.Create(
+        nameof(TrendGlyph), typeof(string), typeof(KpiCard), string.Empty);
+
+    public static readonly BindableProperty TrendColorProperty = BindableProperty.Create(
+        nameof(TrendColor), typeof(Color), typeof(KpiCard), Colors.Transparent);
+
+    public static readonly BindableProperty HasTrendProperty = BindableProperty.Create(
+        nameof(HasTrend), typeof(bool), typeof(KpiCard), false);
+
+    public static readonly BindableProperty ProgressValueProperty = BindableProperty.Create(
+        nameof(ProgressValue), typeof(double), typeof(KpiCard), 0.0);
+
+    public static readonly BindableProperty HasProgressProperty = BindableProperty.Create(
+        nameof(HasProgress), typeof(bool), typeof(KpiCard), false);
 
     public DashboardKpi? Kpi
     {
@@ -81,6 +96,36 @@ public partial class KpiCard : ContentView
         set => SetValue(HasHelperProperty, value);
     }
 
+    public string TrendGlyph
+    {
+        get => (string)GetValue(TrendGlyphProperty);
+        set => SetValue(TrendGlyphProperty, value);
+    }
+
+    public Color TrendColor
+    {
+        get => (Color)GetValue(TrendColorProperty);
+        set => SetValue(TrendColorProperty, value);
+    }
+
+    public bool HasTrend
+    {
+        get => (bool)GetValue(HasTrendProperty);
+        set => SetValue(HasTrendProperty, value);
+    }
+
+    public double ProgressValue
+    {
+        get => (double)GetValue(ProgressValueProperty);
+        set => SetValue(ProgressValueProperty, value);
+    }
+
+    public bool HasProgress
+    {
+        get => (bool)GetValue(HasProgressProperty);
+        set => SetValue(HasProgressProperty, value);
+    }
+
     public KpiCard()
     {
         InitializeComponent();
@@ -99,6 +144,30 @@ public partial class KpiCard : ContentView
         var (statusLabel, statusColor) = ResolveStatus(kpi.Status);
         card.StatusLabel = statusLabel;
         card.StatusColor = statusColor;
+
+        if (kpi.Trend is not null)
+        {
+            var (glyph, trendColor) = ResolveTrend(kpi.Trend.Value, statusColor);
+            card.TrendGlyph = glyph;
+            card.TrendColor = trendColor;
+            card.HasTrend = true;
+        }
+        else
+        {
+            card.TrendGlyph = string.Empty;
+            card.HasTrend = false;
+        }
+
+        if (kpi.Progress is not null)
+        {
+            card.ProgressValue = Math.Clamp(kpi.Progress.Value, 0.0, 1.0);
+            card.HasProgress = true;
+        }
+        else
+        {
+            card.ProgressValue = 0.0;
+            card.HasProgress = false;
+        }
     }
 
     private static (string Label, Color Color) ResolveStatus(KpiStatus status)
@@ -112,6 +181,20 @@ public partial class KpiCard : ContentView
             KpiStatus.Ok => ("● En meta", ok),
             KpiStatus.Warning => ("● Atención", warn),
             KpiStatus.Alert => ("● Crítico", alert),
+            _ => (string.Empty, Colors.Transparent)
+        };
+    }
+
+    // Trend arrow glyph and colour. The colour mirrors the status colour so
+    // the card reads as a single semantic unit: a warning card has a warning-
+    // tinted arrow regardless of direction.
+    private static (string Glyph, Color Color) ResolveTrend(KpiTrend trend, Color statusColor)
+    {
+        return trend switch
+        {
+            KpiTrend.Up => ("", statusColor),   // arrow_upward
+            KpiTrend.Down => ("", statusColor), // arrow_downward
+            KpiTrend.Flat => ("", statusColor), // remove (horizontal dash)
             _ => (string.Empty, Colors.Transparent)
         };
     }

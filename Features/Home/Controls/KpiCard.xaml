@@ -6,12 +6,15 @@
 
     <Border Style="{StaticResource ElevatedCardBorder}">
         <VerticalStackLayout Spacing="{StaticResource Spacing6}">
+
             <Label Text="{Binding Label, Source={x:Reference Root}}"
                    Style="{StaticResource LabelMedium}"
                    TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    LineBreakMode="TailTruncation" />
 
-            <HorizontalStackLayout Spacing="{StaticResource Spacing4}" VerticalOptions="End">
+            <!-- Value + unit + trend arrow on the same baseline -->
+            <HorizontalStackLayout Spacing="{StaticResource Spacing4}"
+                                   VerticalOptions="End">
                 <Label Text="{Binding Value, Source={x:Reference Root}}"
                        Style="{StaticResource HeadlineMedium}" />
                 <Label Text="{Binding Unit, Source={x:Reference Root}}"
@@ -19,10 +22,25 @@
                        TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                        VerticalOptions="End"
                        Margin="0,0,0,6" />
+                <Label Text="{Binding TrendGlyph, Source={x:Reference Root}}"
+                       FontFamily="MaterialIcons"
+                       FontSize="18"
+                       TextColor="{Binding TrendColor, Source={x:Reference Root}}"
+                       VerticalOptions="End"
+                       Margin="2,0,0,5"
+                       IsVisible="{Binding HasTrend, Source={x:Reference Root}}" />
             </HorizontalStackLayout>
 
-            <!-- Status badge: small coloured dot + label so it reads even
-                 for users who do not distinguish the brand status colours. -->
+            <!-- Thin progress bar toward target; hidden for KPIs without a
+                 0–1 scale (counts, indices). ProgressColor follows status so
+                 the bar reinforces the semantic reading of the tile. -->
+            <ProgressBar Progress="{Binding ProgressValue, Source={x:Reference Root}}"
+                         ProgressColor="{Binding StatusColor, Source={x:Reference Root}}"
+                         HeightRequest="5"
+                         Margin="0,2,0,0"
+                         IsVisible="{Binding HasProgress, Source={x:Reference Root}}" />
+
+            <!-- Status badge: coloured dot + text label -->
             <HorizontalStackLayout Spacing="{StaticResource Spacing6}"
                                    VerticalOptions="Center">
                 <Ellipse WidthRequest="8"
@@ -38,6 +56,7 @@
                    Style="{StaticResource BodySmall}"
                    TextColor="{AppThemeBinding Light={StaticResource OnSurfaceVariant}, Dark={StaticResource DarkOnSurfaceVariant}}"
                    IsVisible="{Binding HasHelper, Source={x:Reference Root}}" />
+
         </VerticalStackLayout>
     </Border>
 
