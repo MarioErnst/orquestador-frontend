@@ -160,7 +160,7 @@ Todo el contenido de la rama `feat/maui-prototype` desde el commit `Remove Flutt
 
 1. Implementar autenticación real con MSAL.NET (Entra ID).
 2. Reemplazar `Mock*Repository` por `Api*Repository` que llamen al backend.
-3. Implementar Power BI Embedded SDK en `BoardViewerPage` (token desde backend).
+3. Implementar el visor de Power BI en `BoardViewerPage` con un `HybridWebView` que hospeda la librería JavaScript `powerbi-client` (no existe un control nativo de Power BI para MAUI); el backend entrega `embedUrl` y un embed token de vida corta.
 4. Implementar visor PDF real en `DocumentViewerPage` y reproductor de video.
 5. Integrar resumen IA generado por backend en `AiSummaryBlock`.
 6. Implementar registro de auditoría — los accesos al Canal de Denuncias deben escribirse vía backend ANTES de entregar la respuesta.

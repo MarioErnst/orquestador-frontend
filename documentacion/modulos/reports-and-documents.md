@@ -24,7 +24,7 @@
 
 - **Visor único `DocumentViewerPage` en lugar de PdfViewer/VideoPlayer separados**: el flujo desde notificaciones es uniforme (`document?id=...`), no requiere conocer el tipo en navegación. El page resuelve el tipo después de cargar el report y muestra el placeholder apropiado. Reduce número de routes y simplifica `NotificationNavigationService`.
 - **`AiSummaryBlock` siempre etiquetado como IA**: el chrome usa `SecondaryContainer` distinto del card normal para diferenciar visualmente. La nota "asistencia a la lectura" refuerza la regla de Propuesta 1 §9.1: la IA asiste, no reemplaza.
-- **Placeholders explícitos para Power BI, PDF y video**: comentarios `// PROTOTYPE:` en XAML y en VMs marcan qué se reemplaza en producción (SDK Power BI Embedded con token del backend, visor PDF nativo, reproductor de video).
+- **Placeholders explícitos para Power BI, PDF y video**: comentarios `// PROTOTYPE:` en XAML y en VMs marcan qué se reemplaza en producción (visor de Power BI vía `HybridWebView` + librería JS `powerbi-client` con token del backend, visor PDF nativo, reproductor de video).
 - **`[QueryProperty]` con `OnXChanged` partial method**: cada vez que Shell asigna el query parameter, el ViewModel dispara `LoadAsync` sin necesidad de `OnAppearing`.
 
 ## Cómo se integra
@@ -36,7 +36,7 @@
 
 ## Pendientes
 
-- Implementar Power BI Embedded SDK real en `BoardViewerPage`. El token de embedding viene del backend per Propuesta 1 §5.7.
+- Implementar el visor real de Power BI en `BoardViewerPage` con un `HybridWebView` que hospeda la librería JavaScript `powerbi-client` (no existe control nativo de Power BI para MAUI; el render ocurre en un WebView). El `embedUrl` y el embed token de vida corta vienen del backend per Propuesta 1 §5.7. La WebView requiere CSP restrictivo y `powerbi-client` pinneado a versión exacta (CLAUDE.md §16 y §8).
 - Implementar visor PDF nativo (paquete community o iframe). La URL del PDF viene firmada del backend, vida corta ≤15 minutos per CLAUDE.md §8.
 - Implementar reproductor de video con `MediaElement` de MAUI Community Toolkit, con URL firmada.
 - Bloquear copy/paste y screenshots cuando esté activa la política de Intune (en producción).
